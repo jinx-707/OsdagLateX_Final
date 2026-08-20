@@ -1,0 +1,93 @@
+{
+  "title": "Base Plate Design Report",
+  "author": "Osdag",
+  "config": {
+    "include_toc": true,
+    "include_list_of_figures": true,
+    "include_list_of_tables": true,
+    "include_appendix": false,
+    "style": "default"
+  },
+  "sections": [
+    {
+      "title": "Design Parameters",
+      "level": 1,
+      "content": [
+        "This report presents the design of a base plate for a column subjected to axial load and bending.",
+        {
+          "type": "table",
+          "headers": ["Parameter", "Value"],
+          "rows": [
+            ["Column section", "ISMB 400"],
+            ["Axial load", "450 kN"],
+            ["Moment", "85 kNm"],
+            ["Concrete grade", "M25"],
+            ["Anchor bolt", "M24 Grade 4.6"]
+          ],
+          "caption": "Input parameters",
+          "label": "tab:input-params"
+        }
+      ]
+    },
+    {
+      "title": "Plate Sizing",
+      "level": 1,
+      "content": [
+        "The base plate dimensions are determined from the bearing area required.",
+        {
+          "type": "table",
+          "headers": ["Dimension", "Calculated", "Provided"],
+          "rows": [
+            ["Length (B)", "380 mm", "400 mm"],
+            ["Width (D)", "280 mm", "300 mm"],
+            ["Thickness", "22 mm", "25 mm"],
+            ["Projection (c)", "52 mm", "55 mm"]
+          ],
+          "caption": "Base plate dimensions",
+          "label": "tab:plate-dims"
+        }
+      ],
+      "subsections": [
+        {
+          "title": "Thickness Check",
+          "level": 2,
+          "content": [
+            "The required thickness is calculated from the cantilever bending moment.",
+            {
+              "type": "table",
+              "headers": ["Check", "Value", "Status"],
+              "rows": [
+                ["Cantilever moment", "42.3 kNm", "OK"],
+                ["Required thickness", "18.7 mm", "OK"],
+                ["Provided thickness", "25 mm", "PASS"]
+              ],
+              "caption": "Thickness verification",
+              "label": "tab:thickness-check"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Anchor Bolt Design",
+      "level": 1,
+      "content": [
+        {
+          "type": "table",
+          "headers": ["Parameter", "Value"],
+          "rows": [
+            ["Bolt diameter", "24 mm"],
+            ["Number of bolts", "4"],
+            ["Tensile capacity", "62.1 kN"],
+            ["Prying force", "12.4 kN"],
+            ["Total tension per bolt", "39.8 kN"],
+            ["Status", "PASS"]
+          ],
+          "caption": "Anchor bolt check",
+          "label": "tab:anchor-bolt"
+        },
+        "The anchor bolts are adequate for the applied loads."
+      ]
+    }
+  ]
+}

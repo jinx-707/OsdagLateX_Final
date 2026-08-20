@@ -1,0 +1,472 @@
+\documentclass{article}%
+\usepackage[T1]{fontenc}%
+\usepackage[utf8]{inputenc}%
+\usepackage{lmodern}%
+\usepackage{textcomp}%
+\usepackage{lastpage}%
+\usepackage{parskip}%
+\usepackage{geometry}%
+\geometry{top=5cm,hmargin=2cm,headheight=100pt,footskip=100pt,bottom=5cm}%
+\usepackage{amsmath}%
+\usepackage{graphicx}%
+\usepackage{needspace}%
+\usepackage{color}%
+\usepackage{longtable}%
+\usepackage{multirow}%
+\usepackage{tabularx}%
+\usepackage[table]{xcolor}%
+\usepackage{xcolor}%
+\usepackage{fancyhdr}%
+%
+\definecolor{OsdagGreen}{RGB}{153,169,36}%
+\definecolor{PassColor}{RGB}{153,169,36}%
+\definecolor{Red}{RGB}{255,0,0}%
+\definecolor{Green}{RGB}{0,200,0}%
+\definecolor{FailColor}{HTML}{933A16}%
+\fancypagestyle{header}{%
+\renewcommand{\headrulewidth}{0pt}%
+\renewcommand{\footrulewidth}{0pt}%
+\fancyhead{%
+}%
+\fancyfoot{%
+}%
+\fancyhead[C]{%
+\begin{tabularx}{\textwidth}{|l|p{4cm}|l|X|}%
+\hline%
+\multicolumn{2}{|c|}{}&\multicolumn{2}{|c|}{Created with%
+\includegraphics[width=4.0cm,height=1cm]{osdag_header.png}}\\%
+\hline%
+\rowcolor{OsdagGreen}%
+Company Name&Osdag Demo&Project Title&Demo Building Connection\\%
+\hline%
+\rowcolor{OsdagGreen}%
+Group/Team Name&Steel Design&Subtitle&Beam{-}to{-}Column End Plate\\%
+\hline%
+\rowcolor{OsdagGreen}%
+Designer&Engineer&Job Number&JOB{-}001\\%
+\hline%
+\rowcolor{OsdagGreen}%
+Date&20 /08 /2026&Client&Demo Client\\%
+\hline%
+\end{tabularx}%
+}%
+\fancyfoot[R]{%
+Page \thepage%
+}%
+}%
+%
+\begin{document}%
+\normalsize%
+\fontsize{8}{12}%
+\selectfont%
+\pagestyle{header}%
+\section{Input Parameters}%
+\label{sec:InputParameters}%
+\renewcommand{\arraystretch}{1.2}%
+\begin{longtable}{|p{5cm}|p{2.5cm}|p{1.5cm}|p{3cm}|p{3.5cm}|}%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Main Module}&\multicolumn{2}{|c|}{Connection}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Module}&\multicolumn{2}{|c|}{Beam{-}to{-}Column End Plate Connection}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Connectivity *}&\multicolumn{2}{|c|}{Column Flange {-} Beam Web}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{End Plate Type *}&\multicolumn{2}{|c|}{Extended Both Way}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Bending Moment (kNm) *}&\multicolumn{2}{|c|}{50.0}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Shear Force (kN) *}&\multicolumn{2}{|c|}{120.0}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Axial (kN) *}&\multicolumn{2}{|c|}{0.0}\\%
+\hline%
+\hline%
+\multicolumn{5}{|c|}{\textbf{Column Section {-} Mechanical Properties}}\\%
+\hline%
+\hline%
+\multirow{9}{*}{{[}Section Image{]}}&\multicolumn{2}{|c|}{Designation}&\multicolumn{2}{|c|}{ISMB 450}\\%
+\cline{2%
+-%
+5}%
+&\multicolumn{2}{|c|}{Material}&\multicolumn{2}{|c|}{E 250}\\%
+\cline{2%
+-%
+5}%
+&\multicolumn{2}{|c|}{D (mm)}&\multicolumn{2}{|c|}{450}\\%
+\cline{2%
+-%
+5}%
+&\multicolumn{2}{|c|}{B (mm)}&\multicolumn{2}{|c|}{150}\\%
+\cline{2%
+-%
+5}%
+&t_f (mm)&17.4&I_yy (cm4)&1487.5\\%
+\cline{2%
+-%
+5}%
+&t_w (mm)&9.4&Z_zz (cm3)&1465.9\\%
+\cline{2%
+-%
+5}%
+&R (mm)&13.5&Z_yz (cm3)&198.3\\%
+\cline{2%
+-%
+5}%
+&A (cm2)&81.64&Z_pz (cm3)&1710.4\\%
+\cline{2%
+-%
+5}%
+&I_zz (cm4)&32983.8&Z_py (cm3)&320.9\\%
+\cline{2%
+-%
+5}%
+\hline%
+\multicolumn{5}{|c|}{\textbf{Beam Section {-} Mechanical Properties}}\\%
+\hline%
+\hline%
+\multirow{9}{*}{{[}Section Image{]}}&\multicolumn{2}{|c|}{Designation}&\multicolumn{2}{|c|}{ISMB 350}\\%
+\cline{2%
+-%
+5}%
+&\multicolumn{2}{|c|}{Material}&\multicolumn{2}{|c|}{E 250}\\%
+\cline{2%
+-%
+5}%
+&\multicolumn{2}{|c|}{D (mm)}&\multicolumn{2}{|c|}{350}\\%
+\cline{2%
+-%
+5}%
+&\multicolumn{2}{|c|}{B (mm)}&\multicolumn{2}{|c|}{140}\\%
+\cline{2%
+-%
+5}%
+&t_f (mm)&14.2&I_yy (cm4)&1041.4\\%
+\cline{2%
+-%
+5}%
+&t_w (mm)&8.1&Z_zz (cm3)&874.2\\%
+\cline{2%
+-%
+5}%
+&R (mm)&14&Z_yz (cm3)&148.8\\%
+\cline{2%
+-%
+5}%
+&A (cm2)&62.56&Z_pz (cm3)&1010.8\\%
+\cline{2%
+-%
+5}%
+&I_zz (cm4)&15297.8&Z_py (cm3)&241.0\\%
+\cline{2%
+-%
+5}%
+\hline%
+\multicolumn{5}{|c|}{\textbf{Plate Details {-} Input and Design Preference}}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Thickness (mm) *}&\multicolumn{2}{|c|}{{[}10, 12, 16, 20, 25{]}}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Material *}&\multicolumn{2}{|c|}{E 250}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Ultimate strength, fu (MPa)}&\multicolumn{2}{|c|}{410}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Yield Strength , fy (MPa)}&\multicolumn{2}{|c|}{250}\\%
+\hline%
+\hline%
+\multicolumn{5}{|c|}{\textbf{Bolt Details {-} Input and Design Preference}}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Diameter(mm)*}&\multicolumn{2}{|c|}{{[}16, 20, 22, 24, 27{]}}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Grade *}&\multicolumn{2}{|c|}{{[}8.8, 10.9{]}}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Type *}&\multicolumn{2}{|c|}{Friction Grip}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Bolt Tensioning}&\multicolumn{2}{|c|}{Pretensioned}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Bolt Hole Type}&\multicolumn{2}{|c|}{Standard}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Slip Factor}&\multicolumn{2}{|c|}{0.2}\\%
+\hline%
+\hline%
+\multicolumn{5}{|c|}{\textbf{Weld Details {-} Input and Design Preference}}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Type of Weld Fabrication}&\multicolumn{2}{|c|}{Shop Weld}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Ultimate strength, fu (MPa) }&\multicolumn{2}{|c|}{410}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Beam Flange Weld Type}&\multicolumn{2}{|c|}{Groove Weld}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Beam Web Weld Type}&\multicolumn{2}{|c|}{Fillet Weld}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Stiffener Weld Type}&\multicolumn{2}{|c|}{Fillet Weld}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Continuity Plate Weld Type}&\multicolumn{2}{|c|}{Fillet Weld}\\%
+\hline%
+\hline%
+\multicolumn{5}{|c|}{\textbf{Detailing {-} Design Preference}}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Edge Preparation Method}&\multicolumn{2}{|c|}{Flame Cut}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Gap Between Beams (mm)}&\multicolumn{2}{|c|}{10}\\%
+\hline%
+\hline%
+\multicolumn{3}{|c|}{Are the Members Exposed to Corrosive Influences?}&\multicolumn{2}{|c|}{No}\\%
+\hline%
+\end{longtable}
+
+%
+\Needspace{10\baselineskip}%
+\newpage%
+\section{Design Checks}%
+\label{sec:DesignChecks}%
+\renewcommand{\arraystretch}{1.2}%
+\begin{tabularx}{\textwidth}{|>{\centering}p{12.5cm}|>{\centering\arraybackslash}X|}%
+\hline%
+\textbf{Design Status}&\cellcolor{OsdagGreen}{\textbf{Pass}}\\%
+\hline%
+\end{tabularx}%
+\subsection{Beam to Column {-} Compatibility Check}%
+\label{subsec:BeamtoColumn{-}CompatibilityCheck}%
+\renewcommand{\arraystretch}{1.2}%
+\begin{longtable}{|p{4cm}|p{3.5cm}|p{6.5cm}|p{2cm}|}%
+\hline%
+\rowcolor{OsdagGreen}%
+Check&Required&Provided&Remarks\\%
+\hline%
+\endhead%
+\hline%
+Beam Section Compatibility&Bf <= 25 mm + Bf,beam&Column Flange Width = 150 mm&\textcolor{OsdagGreen}{%
+\textbf{Compatible}%
+}\\%
+\hline%
+\end{longtable}
+
+%
+\Needspace{10\baselineskip}%
+\subsection{Member Capacity {-} Supported Section}%
+\label{subsec:MemberCapacity{-}SupportedSection}%
+\renewcommand{\arraystretch}{1.2}%
+\begin{longtable}{|p{4.5cm}|p{3cm}|p{6.5cm}|p{1.5cm}|}%
+\hline%
+\rowcolor{OsdagGreen}%
+Check&Required&Provided&Remarks\\%
+\hline%
+\endhead%
+\hline%
+Shear Capacity (kN)&&V\_d = 150.0 (kN)&\textcolor{OsdagGreen}{%
+\textbf{Restricted to low shear}%
+}\\%
+\hline%
+Plastic Moment Capacity (kNm)&&M\_pc = 252.7 (kNm)&\textcolor{OsdagGreen}{%
+\textbf{V < 0.6 Vdy}%
+}\\%
+\hline%
+&&&\textcolor{OsdagGreen}{%
+\textbf{}%
+}\\%
+\hline%
+\end{longtable}
+
+%
+\Needspace{10\baselineskip}%
+\subsection{Member Capacity {-} Supporting Section}%
+\label{subsec:MemberCapacity{-}SupportingSection}%
+\renewcommand{\arraystretch}{1.2}%
+\begin{longtable}{|p{4.5cm}|p{3cm}|p{6.5cm}|p{1.5cm}|}%
+\hline%
+\rowcolor{OsdagGreen}%
+Check&Required&Provided&Remarks\\%
+\hline%
+\endhead%
+\hline%
+Plastic Moment Capacity - ZZ (kNm)&&M\_dz = 342.1 (kNm)&\textcolor{OsdagGreen}{%
+\textbf{Compact}%
+}\\%
+\hline%
+Plastic Moment Capacity - YY (kNm)&&M\_dy = 64.2 (kNm)&\textcolor{OsdagGreen}{%
+\textbf{Compact}%
+}\\%
+\hline%
+\end{longtable}
+
+%
+\Needspace{10\baselineskip}%
+\subsection{Load Consideration}%
+\label{subsec:LoadConsideration}%
+\renewcommand{\arraystretch}{1.2}%
+\begin{longtable}{|p{3.5cm}|p{5.3cm}|p{5.2cm}|p{1.5cm}|}%
+\hline%
+\rowcolor{OsdagGreen}%
+Check&Required&Provided&Remarks\\%
+\hline%
+\endhead%
+\hline%
+Axial (kN) *&&P\_x = 0.0&\textcolor{OsdagGreen}{%
+\textbf{OK}%
+}\\%
+\hline%
+Shear Force (kN) *&V\_y = 120.0 (kN)&V\_app = 120.0, V\_c = 150.0&\textcolor{OsdagGreen}{%
+\textbf{Pass}%
+}\\%
+\hline%
+Bending Moment (major axis) (kNm)&M\_z = 50.0 (kN)&M\_app = 50.0, M\_c = 252.7&\textcolor{OsdagGreen}{%
+\textbf{Pass}%
+}\\%
+\hline%
+Effective Bending Moment (major axis) (kNm)&&M\_e = 55.2 (kNm)&\textcolor{OsdagGreen}{%
+\textbf{OK}%
+}\\%
+\hline%
+\end{longtable}
+
+%
+\Needspace{10\baselineskip}%
+\subsection{ Bolt Optimization}%
+\label{subsec:BoltOptimization}%
+\renewcommand{\arraystretch}{1.2}%
+\begin{longtable}{|p{3.5cm}|p{6cm}|p{5cm}|p{1.5cm}|}%
+\hline%
+\rowcolor{OsdagGreen}%
+Check&Required&Provided&Remarks\\%
+\hline%
+\endhead%
+\hline%
+Bolt Diameter (mm)&Bolt Diameter Optimization&d = 20&\textcolor{OsdagGreen}{%
+\textbf{Pass}%
+}\\%
+\hline%
+Bolt Property Class&Bolt Property Class Optimization&8.8&\textcolor{OsdagGreen}{%
+\textbf{Pass}%
+}\\%
+\hline%
+Bolt Hole Diameter (mm)& &d\_0 = 22&\textcolor{OsdagGreen}{%
+\textbf{OK}%
+}\\%
+\hline%
+No. of Columns&&n\_c = 2&\textcolor{OsdagGreen}{%
+\textbf{Pass}%
+}\\%
+\hline%
+No. of Rows&&n\_r = 4&\textcolor{OsdagGreen}{%
+\textbf{Pass}%
+}\\%
+\hline%
+Total Number of Bolts&&n = 8&\textcolor{OsdagGreen}{%
+\textbf{Pass}%
+}\\%
+\hline%
+\end{longtable}
+
+%
+\Needspace{10\baselineskip}%
+\subsection{Bolt Shear Capacity}%
+\label{subsec:BoltShearCapacity}%
+\renewcommand{\arraystretch}{1.2}%
+\begin{longtable}{|p{3.5cm}|p{6cm}|p{5cm}|p{1.5cm}|}%
+\hline%
+\rowcolor{OsdagGreen}%
+Check&Required&Provided&Remarks\\%
+\hline%
+\endhead%
+\hline%
+Shear Capacity of Bolt (kN)&V\_dsb = 55.2 kN&V\_dsb = 55.2 kN&\textcolor{OsdagGreen}{%
+\textbf{Pass}%
+}\\%
+\hline%
+Bearing Capacity of Bolt (kN)&V\_dpb = 123.8 kN&V\_dpb = 123.8 kN&\textcolor{OsdagGreen}{%
+\textbf{Pass}%
+}\\%
+\hline%
+Bolt Value (kN)&V\_dbf = min(V\_dsb, V\_dpb)&V\_dbf = 55.2 kN&\textcolor{OsdagGreen}{%
+\textbf{Pass}%
+}\\%
+\hline%
+\end{longtable}
+
+%
+\Needspace{10\baselineskip}%
+\subsection{Bolt Moment Capacity}%
+\label{subsec:BoltMomentCapacity}%
+\renewcommand{\arraystretch}{1.2}%
+\begin{longtable}{|p{3.5cm}|p{6cm}|p{5cm}|p{1.5cm}|}%
+\hline%
+\rowcolor{OsdagGreen}%
+Check&Required&Provided&Remarks\\%
+\hline%
+\endhead%
+\hline%
+Moment of Bolt Group (kNm)&M\_n = n * V\_dbf * r\_i&M\_n = 88.3 kNm&\textcolor{OsdagGreen}{%
+\textbf{Pass}%
+}\\%
+\hline%
+\end{longtable}
+
+%
+\Needspace{10\baselineskip}%
+\subsection{End Plate Design}%
+\label{subsec:EndPlateDesign}%
+\renewcommand{\arraystretch}{1.2}%
+\begin{longtable}{|p{3.5cm}|p{6cm}|p{5cm}|p{1.5cm}|}%
+\hline%
+\rowcolor{OsdagGreen}%
+Check&Required&Provided&Remarks\\%
+\hline%
+\endhead%
+\hline%
+Plate Thickness (mm)&t\_p >= 15.2 mm&t\_p = 16 mm&\textcolor{OsdagGreen}{%
+\textbf{Pass}%
+}\\%
+\hline%
+Plate Yield Strength (MPa)&f\_y = 250&f\_y = 250&\textcolor{OsdagGreen}{%
+\textbf{Pass}%
+}\\%
+\hline%
+\end{longtable}
+
+%
+\Needspace{10\baselineskip}%
+\subsection{Weld Design {-} Beam Flange}%
+\label{subsec:WeldDesign{-}BeamFlange}%
+\renewcommand{\arraystretch}{1.2}%
+\begin{longtable}{|p{3.5cm}|p{6.3cm}|p{5.5cm}|p{1.2cm}|}%
+\hline%
+\rowcolor{OsdagGreen}%
+Check&Required&Provided&Remarks\\%
+\hline%
+\endhead%
+\hline%
+Weld Size (mm)&Min = 3, Max = 18&w = 10&\textcolor{OsdagGreen}{%
+\textbf{Pass}%
+}\\%
+\hline%
+Weld Strength (MPa)&f\_u,w = 410&f\_u,w = 410&\textcolor{OsdagGreen}{%
+\textbf{Pass}%
+}\\%
+\hline%
+\end{longtable}
+
+%
+\end{document}

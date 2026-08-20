@@ -1,0 +1,407 @@
+\documentclass[12pt]{article}
+
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{hyperref}
+
+% Define Osdag colors
+\definecolor{OsdagGreen}{RGB}{0,128,0}
+\definecolor{OsdagRed}{RGB}{255,0,0}
+\definecolor{OsdagBlue}{RGB}{0,0,255}
+
+\title{\textbf{Beam-to-Column End Plate Connection Design Report}}
+\author{Osdag}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+
+
+
+\tableofcontents
+\newpage
+
+
+
+\listoffigures
+\newpage
+
+
+
+\listoftables
+\newpage
+
+
+\section{Input Parameters}
+
+\begin{longtable}{ll}
+\caption{Input Parameters}
+\label{tab:input}
+Parameter & Value \\ \hline
+\endfirsthead
+\multicolumn{2}{c}{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+\endhead
+\endfoot
+\endlastfoot
+Main Module & Connection \\
+\hline
+Module & Beam-to-Column End Plate Connection \\
+\hline
+Connectivity * & Column Flange - Beam Web \\
+\hline
+End Plate Type * & Extended Both Way \\
+\hline
+Bending Moment (kNm) * & 50.0 \\
+\hline
+Shear Force (kN) * & 120.0 \\
+\hline
+Axial (kN) * & 0.0 \\
+\hline
+\end{longtable}
+
+\subsection{Column Section - Mechanical Properties}
+
+\begin{longtable}{ll}
+\caption{Section Details - Rolled I Section}
+\label{tab:section-details}
+\cellcolor{OsdagGreen} Property & \cellcolor{OsdagGreen} Value \\ \hline
+\endfirsthead
+\multicolumn{2}{c}{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+\endhead
+\endfoot
+\endlastfoot
+Designation & ISMB 450 \\
+\hline
+Material & E 250 \\
+\hline
+D (mm) & 450 \\
+\hline
+B (mm) & 150 \\
+\hline
+t\_f (mm) & 17.4 \\
+\hline
+t\_w (mm) & 9.4 \\
+\hline
+R (mm) & 13.5 \\
+\hline
+A (cm2) & 81.64 \\
+\hline
+I\_zz (cm4) & 32983.8 \\
+\hline
+I\_yy (cm4) & 1487.5 \\
+\hline
+Z\_zz (cm3) & 1465.9 \\
+\hline
+Z\_yz (cm3) & 198.3 \\
+\hline
+Z\_pz (cm3) & 1710.4 \\
+\hline
+Z\_py (cm3) & 320.9 \\
+\hline
+R\_z (cm) & 20.1 \\
+\hline
+R\_y (cm) & 4.26 \\
+\hline
+Fu (MPa) & 410 \\
+\hline
+Fy (MPa) & 250 \\
+\hline
+\end{longtable}
+
+\subsection{Beam Section - Mechanical Properties}
+
+\begin{longtable}{ll}
+\caption{Section Details - Rolled I Section}
+\label{tab:section-details}
+\cellcolor{OsdagGreen} Property & \cellcolor{OsdagGreen} Value \\ \hline
+\endfirsthead
+\multicolumn{2}{c}{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+\endhead
+\endfoot
+\endlastfoot
+Designation & ISMB 350 \\
+\hline
+Material & E 250 \\
+\hline
+D (mm) & 350 \\
+\hline
+B (mm) & 140 \\
+\hline
+t\_f (mm) & 14.2 \\
+\hline
+t\_w (mm) & 8.1 \\
+\hline
+R (mm) & 14 \\
+\hline
+A (cm2) & 62.56 \\
+\hline
+I\_zz (cm4) & 15297.8 \\
+\hline
+I\_yy (cm4) & 1041.4 \\
+\hline
+Z\_zz (cm3) & 874.2 \\
+\hline
+Z\_yz (cm3) & 148.8 \\
+\hline
+Z\_pz (cm3) & 1010.8 \\
+\hline
+Z\_py (cm3) & 241.0 \\
+\hline
+R\_z (cm) & 15.7 \\
+\hline
+R\_y (cm) & 4.1 \\
+\hline
+Fu (MPa) & 410 \\
+\hline
+Fy (MPa) & 250 \\
+\hline
+\end{longtable}
+
+\subsection{Plate Details - Input and Design Preference}
+
+\begin{longtable}{ll}
+\caption{Input Parameters}
+\label{tab:input}
+Parameter & Value \\ \hline
+\endfirsthead
+\multicolumn{2}{c}{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+\endhead
+\endfoot
+\endlastfoot
+Thickness (mm) * & [10, 12, 16, 20, 25] \\
+\hline
+Material * & E 250 \\
+\hline
+Ultimate strength, fu (MPa) & 410 \\
+\hline
+Yield Strength , fy (MPa) & 250 \\
+\hline
+\end{longtable}
+
+\subsection{Bolt Details - Input and Design Preference}
+
+\begin{longtable}{ll}
+\caption{Input Parameters}
+\label{tab:input}
+Parameter & Value \\ \hline
+\endfirsthead
+\multicolumn{2}{c}{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+\endhead
+\endfoot
+\endlastfoot
+Diameter(mm)* & [16, 20, 22, 24, 27] \\
+\hline
+Grade * & [8.8, 10.9] \\
+\hline
+Type * & Friction Grip \\
+\hline
+Bolt Tensioning & Pretensioned \\
+\hline
+Bolt Hole Type & Standard \\
+\hline
+Slip Factor & 0.2 \\
+\hline
+\end{longtable}
+
+\subsection{Weld Details - Input and Design Preference}
+
+\begin{longtable}{ll}
+\caption{Input Parameters}
+\label{tab:input}
+Parameter & Value \\ \hline
+\endfirsthead
+\multicolumn{2}{c}{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+\endhead
+\endfoot
+\endlastfoot
+Type of Weld Fabrication & Shop Weld \\
+\hline
+Ultimate strength, fu (MPa)  & 410 \\
+\hline
+Beam Flange Weld Type & Groove Weld \\
+\hline
+Beam Web Weld Type & Fillet Weld \\
+\hline
+Stiffener Weld Type & Fillet Weld \\
+\hline
+Continuity Plate Weld Type & Fillet Weld \\
+\hline
+\end{longtable}
+
+\subsection{Detailing - Design Preference}
+
+\begin{longtable}{ll}
+\caption{Input Parameters}
+\label{tab:input}
+Parameter & Value \\ \hline
+\endfirsthead
+\multicolumn{2}{c}{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+\endhead
+\endfoot
+\endlastfoot
+Edge Preparation Method & Flame Cut \\
+\hline
+Gap Between Beams (mm) & 10 \\
+\hline
+Are the Members Exposed to Corrosive Influences? & No \\
+\hline
+\end{longtable}
+
+\section{Design Checks}
+
+\subsection{Beam to Column - Compatibility Check}
+
+\begin{longtable}{llll}
+\cellcolor{OsdagGreen} Check & \cellcolor{OsdagGreen} Required & \cellcolor{OsdagGreen} Provided & \cellcolor{OsdagGreen} Remarks \\ \hline
+\endfirsthead
+\multicolumn{4}{c}{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+\endhead
+\endfoot
+\endlastfoot
+Beam Section Compatibility & Bf <= 25 mm + Bf,beam & Column Flange Width = 150 mm & Compatible \\
+\hline
+\end{longtable}
+
+\subsection{Member Capacity - Supported Section}
+
+\begin{longtable}{llll}
+\cellcolor{OsdagGreen} Check & \cellcolor{OsdagGreen} Required & \cellcolor{OsdagGreen} Provided & \cellcolor{OsdagGreen} Remarks \\ \hline
+\endfirsthead
+\multicolumn{4}{c}{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+\endhead
+\endfoot
+\endlastfoot
+Shear Capacity (kN) &  & V\_d = 150.0 (kN) & Restricted to low shear \\
+\hline
+Plastic Moment Capacity (kNm) &  & M\_pc = 252.7 (kNm) & V < 0.6 Vdy \\
+\hline
+ &  &  &  \\
+\hline
+\end{longtable}
+
+\subsection{Member Capacity - Supporting Section}
+
+\begin{longtable}{llll}
+\cellcolor{OsdagGreen} Check & \cellcolor{OsdagGreen} Required & \cellcolor{OsdagGreen} Provided & \cellcolor{OsdagGreen} Remarks \\ \hline
+\endfirsthead
+\multicolumn{4}{c}{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+\endhead
+\endfoot
+\endlastfoot
+Plastic Moment Capacity - ZZ (kNm) &  & M\_dz = 342.1 (kNm) & Compact \\
+\hline
+Plastic Moment Capacity - YY (kNm) &  & M\_dy = 64.2 (kNm) & Compact \\
+\hline
+\end{longtable}
+
+\subsection{Load Consideration}
+
+\begin{longtable}{llll}
+\cellcolor{OsdagGreen} Check & \cellcolor{OsdagGreen} Required & \cellcolor{OsdagGreen} Provided & \cellcolor{OsdagGreen} Remarks \\ \hline
+\endfirsthead
+\multicolumn{4}{c}{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+\endhead
+\endfoot
+\endlastfoot
+Axial (kN) * &  & P\_x = 0.0 & OK \\
+\hline
+Shear Force (kN) * & V\_y = 120.0 (kN) & V\_app = 120.0, V\_c = 150.0 & Pass \\
+\hline
+Bending Moment (major axis) (kNm) & M\_z = 50.0 (kN) & M\_app = 50.0, M\_c = 252.7 & Pass \\
+\hline
+Effective Bending Moment (major axis) (kNm) &  & M\_e = 55.2 (kNm) & OK \\
+\hline
+\end{longtable}
+
+\subsection{ Bolt Optimization}
+
+\begin{longtable}{llll}
+\cellcolor{OsdagGreen} Check & \cellcolor{OsdagGreen} Required & \cellcolor{OsdagGreen} Provided & \cellcolor{OsdagGreen} Remarks \\ \hline
+\endfirsthead
+\multicolumn{4}{c}{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+\endhead
+\endfoot
+\endlastfoot
+Bolt Diameter (mm) & Bolt Diameter Optimization & d = 20 & Pass \\
+\hline
+Bolt Property Class & Bolt Property Class Optimization & 8.8 & Pass \\
+\hline
+Bolt Hole Diameter (mm) &   & d\_0 = 22 & OK \\
+\hline
+No. of Columns &  & n\_c = 2 & Pass \\
+\hline
+No. of Rows &  & n\_r = 4 & Pass \\
+\hline
+Total Number of Bolts &  & n = 8 & Pass \\
+\hline
+\end{longtable}
+
+\subsection{Bolt Shear Capacity}
+
+\begin{longtable}{llll}
+\cellcolor{OsdagGreen} Check & \cellcolor{OsdagGreen} Required & \cellcolor{OsdagGreen} Provided & \cellcolor{OsdagGreen} Remarks \\ \hline
+\endfirsthead
+\multicolumn{4}{c}{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+\endhead
+\endfoot
+\endlastfoot
+Shear Capacity of Bolt (kN) & V\_dsb = 55.2 kN & V\_dsb = 55.2 kN & Pass \\
+\hline
+Bearing Capacity of Bolt (kN) & V\_dpb = 123.8 kN & V\_dpb = 123.8 kN & Pass \\
+\hline
+Bolt Value (kN) & V\_dbf = min(V\_dsb, V\_dpb) & V\_dbf = 55.2 kN & Pass \\
+\hline
+\end{longtable}
+
+\subsection{Bolt Moment Capacity}
+
+\begin{longtable}{llll}
+\cellcolor{OsdagGreen} Check & \cellcolor{OsdagGreen} Required & \cellcolor{OsdagGreen} Provided & \cellcolor{OsdagGreen} Remarks \\ \hline
+\endfirsthead
+\multicolumn{4}{c}{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+\endhead
+\endfoot
+\endlastfoot
+Moment of Bolt Group (kNm) & M\_n = n * V\_dbf * r\_i & M\_n = 88.3 kNm & Pass \\
+\hline
+\end{longtable}
+
+\subsection{End Plate Design}
+
+\begin{longtable}{llll}
+\cellcolor{OsdagGreen} Check & \cellcolor{OsdagGreen} Required & \cellcolor{OsdagGreen} Provided & \cellcolor{OsdagGreen} Remarks \\ \hline
+\endfirsthead
+\multicolumn{4}{c}{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+\endhead
+\endfoot
+\endlastfoot
+Plate Thickness (mm) & t\_p >= 15.2 mm & t\_p = 16 mm & Pass \\
+\hline
+Plate Yield Strength (MPa) & f\_y = 250 & f\_y = 250 & Pass \\
+\hline
+\end{longtable}
+
+\subsection{Weld Design - Beam Flange}
+
+\begin{longtable}{llll}
+\cellcolor{OsdagGreen} Check & \cellcolor{OsdagGreen} Required & \cellcolor{OsdagGreen} Provided & \cellcolor{OsdagGreen} Remarks \\ \hline
+\endfirsthead
+\multicolumn{4}{c}{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+\endhead
+\endfoot
+\endlastfoot
+Weld Size (mm) & Min = 3, Max = 18 & w = 10 & Pass \\
+\hline
+Weld Strength (MPa) & f\_u,w = 410 & f\_u,w = 410 & Pass \\
+\hline
+\end{longtable}
+
+
+\end{document}
