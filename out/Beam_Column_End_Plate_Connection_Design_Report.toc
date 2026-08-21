@@ -1,0 +1,9 @@
+\contentsline {section}{\numberline {1}Design Input}{4}{section.1}%
+\contentsline {section}{\numberline {2}Bolt Data}{4}{section.2}%
+\contentsline {section}{\numberline {3}Weld Data}{4}{section.3}%
+\contentsline {section}{\numberline {4}Design Checks}{4}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Bolt Checks}{4}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}End Plate Checks}{5}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Weld Checks}{5}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Connection Details}{5}{section.5}%
+\contentsline {section}{\numberline {6}Design Summary}{7}{section.6}%

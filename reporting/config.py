@@ -1,0 +1,35 @@
+"""Configuration for reporting styles and cross-module constants."""
+
+# ── Style registry ────────────────────────────────────────────────────
+STYLE_REGISTRY = {
+    "default": "base.tex",
+    "compact": "compact.tex",
+}
+
+# ── CLI defaults ──────────────────────────────────────────────────────
+DEFAULT_OUTPUT_DIR = "./out"
+DEFAULT_STYLE = "default"
+MAX_WARNINGS_DISPLAY = 5
+
+# ── Compiler defaults ─────────────────────────────────────────────────
+DEFAULT_TIMEOUT_SECONDS = 60
+LATEX_COMPILER = "pdflatex"
+DEFAULT_TEMPLATE_FALLBACK = "base.tex"
+
+# ── Generator defaults ────────────────────────────────────────────────
+DEFAULT_DATE = r"\today"
+
+# ── Adapter defaults ──────────────────────────────────────────────────
+DEFAULT_AUTHOR = "Osdag"
+TITLE_SUFFIX = "Design Report"
+HEADER_COLOR = "OsdagGreen"
+DEFAULT_COL_SPEC = "l"
+INPUT_COL_SPEC = "p{7cm}|X"
+DETAILS_COL_SPEC = "p{5cm}|X"
+INPUT_TABLE_HEADERS = ["Parameter", "Value"]
+DETAILS_TABLE_HEADERS = ["Property", "Value"]
+CHECKS_TABLE_HEADERS = ["Check", "Required", "Provided", "Remarks"]
+SECTION_TITLE_INPUT = "Input Parameters"
+SECTION_TITLE_CHECKS = "Design Checks"
+SECTION_TITLE_DETAILS = "Connection Details"
+DETAILS_INTRO_TEXT = "This section shows the connection details."

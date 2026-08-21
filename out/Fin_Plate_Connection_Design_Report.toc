@@ -1,0 +1,13 @@
+\contentsline {section}{\numberline {1}Input Parameters}{4}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Supported Section - Mechanical Properties}{4}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Supporting Section - Mechanical Properties}{4}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Fin Plate Details - Input and Design Preference}{4}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Bolt Details - Input and Design Preference}{5}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.5}Detailing - Input and Design Preference}{5}{subsection.1.5}%
+\contentsline {subsection}{\numberline {1.6}Weld Details}{5}{subsection.1.6}%
+\contentsline {section}{\numberline {2}Design Checks}{5}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Initial Section Check}{5}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Load Consideration}{5}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Bolt Design}{6}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Section Design}{6}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Weld Design}{6}{subsection.2.5}%

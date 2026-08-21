@@ -1,0 +1,92 @@
+{
+  "title": "Bolted End Plate Connection Design Report",
+  "author": "Osdag",
+  "config": {
+    "include_toc": true,
+    "include_list_of_figures": false,
+    "include_list_of_tables": false,
+    "include_appendix": false,
+    "style": "default"
+  },
+  "sections": [
+    {
+      "title": "Design Summary",
+      "level": 1,
+      "content": [
+        "This report presents the design check results for a bolted end plate connection between a beam and a column.",
+        {
+          "type": "table",
+          "headers": ["Parameter", "Value"],
+          "rows": [
+            ["Bolt diameter", "20 mm"],
+            ["Number of bolts", "8"],
+            ["Plate thickness", "12 mm"],
+            ["Design strength", "250 MPa"],
+            ["Pitch", "60 mm"],
+            ["Gauge", "90 mm"]
+          ],
+          "caption": "Design summary parameters",
+          "label": "tab:design-summary"
+        }
+      ]
+    },
+    {
+      "title": "Connection Geometry",
+      "level": 1,
+      "content": [
+        "The connection geometry is shown in Figure below.",
+        {
+          "type": "table",
+          "headers": ["Component", "Grade", "Size"],
+          "rows": [
+            ["End Plate", "E250", "300 x 200 x 12 mm"],
+            ["Bolt", "Grade 8.8", "M20"],
+            ["Weld", "E7018", "6 mm fillet"]
+          ],
+          "caption": "Connection components",
+          "label": "tab:components"
+        }
+      ],
+      "subsections": [
+        {
+          "title": "Bolt Layout",
+          "level": 2,
+          "content": [
+            "The bolts are arranged in two rows of four, symmetric about the beam flange centerline.",
+            {
+              "type": "table",
+              "headers": ["Row", "Bolt Position", "Distance from Center"],
+              "rows": [
+                ["1", "Left-Top", "45 mm"],
+                ["2", "Right-Top", "45 mm"],
+                ["3", "Left-Bottom", "45 mm"],
+                ["4", "Right-Bottom", "45 mm"]
+              ],
+              "caption": "Bolt positions",
+              "label": "tab:bolt-positions"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Design Checks",
+      "level": 1,
+      "content": [
+        {
+          "type": "table",
+          "headers": ["Check", "Demand", "Capacity", "Status"],
+          "rows": [
+            ["Bolt shear", "45.2 kN", "71.2 kN", "PASS"],
+            ["Bearing on plate", "67.8 kN", "102.4 kN", "PASS"],
+            ["Plate bending", "28.5 kNm", "34.2 kNm", "PASS"],
+            ["Weld strength", "52.1 kN/mm", "61.8 kN/mm", "PASS"]
+          ],
+          "caption": "Design check results",
+          "label": "tab:design-checks"
+        },
+        "All design checks satisfy the requirements of IS 800:2007."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+\documentclass[12pt]{article}
+
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{placeins}
+\usepackage{hyperref}
+
+% Define Osdag colors
+\definecolor{OsdagGreen}{RGB}{0,128,0}
+\definecolor{OsdagRed}{RGB}{255,0,0}
+\definecolor{OsdagBlue}{RGB}{0,0,255}
+
+\title{\textbf{{ title }}}
+\author{{ author }}
+\date{{ date }}
+
+\begin{document}
+
+\maketitle
+
+{% if subtitle %}
+\vspace{0.5cm}
+\centerline{\large {{ subtitle }}}
+\vspace{1cm}
+{% endif %}
+
+{% if include_toc %}
+\tableofcontents
+\newpage
+{% endif %}
+
+{% if include_lof %}
+\listoffigures
+\newpage
+{% endif %}
+
+{% if include_lot %}
+\listoftables
+\newpage
+{% endif %}
+
+{{ sections }}
+
+\end{document}

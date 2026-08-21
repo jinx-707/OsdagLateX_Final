@@ -1,0 +1,55 @@
+\documentclass[10pt]{article}
+
+\usepackage{geometry}
+\geometry{a4paper, margin=0.75in}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{placeins}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+% Tighter section spacing
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+\titlespacing*{\subsection}{0pt}{8pt}{4pt}
+\titlespacing*{\subsubsection}{0pt}{6pt}{3pt}
+
+% Define Osdag colors
+\definecolor{OsdagGreen}{RGB}{0,128,0}
+\definecolor{OsdagRed}{RGB}{255,0,0}
+\definecolor{OsdagBlue}{RGB}{0,0,255}
+
+\begin{document}
+
+\begin{center}
+{\Large\textbf{{ title }}} \\[4pt]
+{\normalsize {{ author }}} \\[2pt]
+{\small {{ date }}}
+\end{center}
+
+{% if subtitle %}
+\begin{center}
+{\large {{ subtitle }}}
+\end{center}
+{% endif %}
+
+{% if include_toc %}
+\tableofcontents
+\newpage
+{% endif %}
+
+{% if include_lof %}
+\listoffigures
+\newpage
+{% endif %}
+
+{% if include_lot %}
+\listoftables
+\newpage
+{% endif %}
+
+{{ sections }}
+
+\end{document}
