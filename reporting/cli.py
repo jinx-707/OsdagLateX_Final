@@ -102,8 +102,11 @@ def load_report_from_json(json_path: str) -> Report:
         config=config,
         subtitle=data.get('subtitle'),
         date=data.get('date'),
+<<<<<<< HEAD
         module_name=data.get('module'),
         report_id=data.get('report_id'),
+=======
+>>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967
     )
 
 
@@ -142,7 +145,10 @@ def _build_section(s_data: dict) -> Section:
         level=s_data.get('level', 1),
         content=content,
         subsections=[_build_section(sub) for sub in s_data.get('subsections', [])],
+<<<<<<< HEAD
         force_page_break_before=s_data.get('force_page_break_before', False),
+=======
+>>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967
     )
 
 

@@ -3,6 +3,7 @@
 from reporting.models.table import Table
 from reporting.utils.escaping import escape_latex
 
+<<<<<<< HEAD
 # ── Status-column coloring (opt-in: fires only when a header literally
 #    named "Status" is present) ─────────────────────────────────────────
 _STATUS_HEADER = "status"
@@ -35,6 +36,8 @@ def _render_cell(cell, status_idx, col_idx) -> str:
         # Unknown status in a Status column: leave unstyled.
     return escape_latex(text)
 
+=======
+>>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967
 
 def generate_table_latex(table: Table) -> str:
     """
@@ -58,6 +61,7 @@ def generate_table_latex(table: Table) -> str:
         return _build_tabular(col_spec, header_cells, table)
 
 
+<<<<<<< HEAD
 def _render_rows(table: Table, status_idx) -> list:
     """Render data rows with per-cell escaping and optional Status coloring."""
     lines = []
@@ -74,6 +78,10 @@ def _render_rows(table: Table, status_idx) -> list:
 def _build_tabular(col_spec: str, header_cells: list, table: Table) -> str:
     """Build a tabular environment wrapped in a table float."""
     status_idx = _status_column_index(table)
+=======
+def _build_tabular(col_spec: str, header_cells: list, table: Table) -> str:
+    """Build a tabular environment wrapped in a table float."""
+>>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967
     lines = []
     lines.append(r"\begin{table}[h]")
     lines.append(r"\centering")
@@ -90,7 +98,14 @@ def _build_tabular(col_spec: str, header_cells: list, table: Table) -> str:
         header_row = " & ".join(header_cells)
     lines.append(header_row + r" \\ \hline")
 
+<<<<<<< HEAD
     lines.extend(_render_rows(table, status_idx))
+=======
+    for row in table.rows:
+        escaped = [escape_latex(cell) for cell in row]
+        lines.append(" & ".join(escaped) + r" \\")
+        lines.append(r"\hline")
+>>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967
 
     lines.append(r"\end{tabular}")
     lines.append(r"\end{table}")
@@ -99,7 +114,10 @@ def _build_tabular(col_spec: str, header_cells: list, table: Table) -> str:
 
 def _build_longtable(col_spec: str, header_cells: list, table: Table) -> str:
     """Build a longtable environment with repeating headers."""
+<<<<<<< HEAD
     status_idx = _status_column_index(table)
+=======
+>>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967
     lines = []
     lines.append(r"\begin{longtable}{" + col_spec + "}")
     if table.caption:
@@ -121,7 +139,14 @@ def _build_longtable(col_spec: str, header_cells: list, table: Table) -> str:
     lines.append(r"\endfoot")
     lines.append(r"\endlastfoot")
 
+<<<<<<< HEAD
     lines.extend(_render_rows(table, status_idx))
+=======
+    for row in table.rows:
+        escaped = [escape_latex(cell) for cell in row]
+        lines.append(" & ".join(escaped) + r" \\")
+        lines.append(r"\hline")
+>>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967
 
     lines.append(r"\end{longtable}")
     return "\n".join(lines)

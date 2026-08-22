@@ -1,0 +1,66 @@
+\documentclass[10pt]{article}
+
+\usepackage{geometry}
+\geometry{a4paper, margin=0.75in}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+% Tighter section spacing
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+\titlespacing*{\subsection}{0pt}{8pt}{4pt}
+\titlespacing*{\subsubsection}{0pt}{6pt}{3pt}
+
+% Define Osdag colors
+\definecolor{OsdagGreen}{RGB}{0,128,0}
+\definecolor{OsdagRed}{RGB}{255,0,0}
+\definecolor{OsdagBlue}{RGB}{0,0,255}
+
+\begin{document}
+
+\begin{center}
+{\Large\textbf{Test Report}} \\[4pt]
+{\normalsize {Osdag}} \\[2pt]
+{\small {\today}}
+\end{center}
+
+
+
+
+\tableofcontents
+\newpage
+
+
+
+\listoffigures
+\newpage
+
+
+
+\listoftables
+\newpage
+
+
+\section{Introduction}
+
+This is a test report.
+
+\begin{table}[h]
+\centering
+\caption{Design parameters}
+\label{tab:params}
+\begin{tabular}{ll}
+Parameter & Value \\ \hline
+Bolt diameter & 20 mm \\
+\hline
+Number of bolts & 8 \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\end{document}

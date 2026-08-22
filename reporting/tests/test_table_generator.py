@@ -27,6 +27,7 @@ def test_table_generator_longtable():
     latex = generate_table_latex(t)
     assert r"\begin{longtable}" in latex
     assert r"\end{longtable}" in latex
+<<<<<<< HEAD
 
 
 # ── Status-column Pass/Fail cell coloring ────────────────────────────────
@@ -90,3 +91,5 @@ def test_status_coloring_in_longtable():
     latex = generate_table_latex(t)
     assert r"\cellcolor{passgreen}Pass" in latex
     assert r"\cellcolor{failred}Fail" in latex
+=======
+>>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967

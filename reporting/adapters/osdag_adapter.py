@@ -27,7 +27,10 @@ from reporting.config import (
 _TITLE_SENTINEL = "TITLE"
 _SUBSECTION_MARKER = "SubSection"
 _IMAGE_MARKER = "Image"  # Common.TYPE_IMAGE
+<<<<<<< HEAD
 _MODULE_KEY = "Module"  # uiObj key supplying the module display name
+=======
+>>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967
 
 # ── Keys to skip in the input table ──────────────────────────────────
 _SKIP_KEYS = {
@@ -73,9 +76,12 @@ def build_report(
         author = reportsummary.get(_PROFILE_SUMMARY_KEY, {}).get(_DESIGNER_KEY, DEFAULT_AUTHOR)
     author = author or DEFAULT_AUTHOR
 
+<<<<<<< HEAD
     # Metadata: reuse the same uiObj field the legacy "Module:" line used.
     display_module = uiObj.get(_MODULE_KEY) or module_name or None
 
+=======
+>>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967
     sections: List[Section] = []
 
     # 1. Input Parameters section
@@ -96,7 +102,10 @@ def build_report(
         author=author,
         sections=sections,
         config=config,
+<<<<<<< HEAD
         module_name=display_module,
+=======
+>>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967
     )
 
 

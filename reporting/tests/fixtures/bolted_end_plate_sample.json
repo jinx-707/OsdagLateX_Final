@@ -16,6 +16,7 @@
         "This report presents the design check results for a bolted end plate connection between a beam and a column.",
         {
           "type": "table",
+<<<<<<< HEAD
           "headers": [
             "Parameter",
             "Value"
@@ -45,12 +46,26 @@
               "Gauge",
               "90 mm"
             ]
+=======
+          "headers": ["Parameter", "Value"],
+          "rows": [
+            ["Bolt diameter", "20 mm"],
+            ["Number of bolts", "8"],
+            ["Plate thickness", "12 mm"],
+            ["Design strength", "250 MPa"],
+            ["Pitch", "60 mm"],
+            ["Gauge", "90 mm"]
+>>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967
           ],
           "caption": "Design summary parameters",
           "label": "tab:design-summary"
         }
+<<<<<<< HEAD
       ],
       "force_page_break_before": true
+=======
+      ]
+>>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967
     },
     {
       "title": "Connection Geometry",
@@ -59,6 +74,7 @@
         "The connection geometry is shown in Figure below.",
         {
           "type": "table",
+<<<<<<< HEAD
           "headers": [
             "Component",
             "Grade",
@@ -80,6 +96,13 @@
               "E7018",
               "6 mm fillet"
             ]
+=======
+          "headers": ["Component", "Grade", "Size"],
+          "rows": [
+            ["End Plate", "E250", "300 x 200 x 12 mm"],
+            ["Bolt", "Grade 8.8", "M20"],
+            ["Weld", "E7018", "6 mm fillet"]
+>>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967
           ],
           "caption": "Connection components",
           "label": "tab:components"
@@ -93,6 +116,7 @@
             "The bolts are arranged in two rows of four, symmetric about the beam flange centerline.",
             {
               "type": "table",
+<<<<<<< HEAD
               "headers": [
                 "Row",
                 "Bolt Position",
@@ -119,6 +143,14 @@
                   "Right-Bottom",
                   "45 mm"
                 ]
+=======
+              "headers": ["Row", "Bolt Position", "Distance from Center"],
+              "rows": [
+                ["1", "Left-Top", "45 mm"],
+                ["2", "Right-Top", "45 mm"],
+                ["3", "Left-Bottom", "45 mm"],
+                ["4", "Right-Bottom", "45 mm"]
+>>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967
               ],
               "caption": "Bolt positions",
               "label": "tab:bolt-positions"
@@ -133,6 +165,7 @@
       "content": [
         {
           "type": "table",
+<<<<<<< HEAD
           "headers": [
             "Check",
             "Demand",
@@ -164,6 +197,14 @@
               "61.8 kN/mm",
               "PASS"
             ]
+=======
+          "headers": ["Check", "Demand", "Capacity", "Status"],
+          "rows": [
+            ["Bolt shear", "45.2 kN", "71.2 kN", "PASS"],
+            ["Bearing on plate", "67.8 kN", "102.4 kN", "PASS"],
+            ["Plate bending", "28.5 kNm", "34.2 kNm", "PASS"],
+            ["Weld strength", "52.1 kN/mm", "61.8 kN/mm", "PASS"]
+>>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967
           ],
           "caption": "Design check results",
           "label": "tab:design-checks"
