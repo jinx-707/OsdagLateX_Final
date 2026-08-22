@@ -2,6 +2,7 @@
 
 import logging
 import os
+from pathlib import Path
 from reporting.models.figure import Figure
 from reporting.utils.escaping import escape_latex
 
@@ -24,10 +25,14 @@ def generate_figure_latex(figure: Figure) -> str:
     if not os.path.isfile(figure.path):
         raise FileNotFoundError(f"Image file not found: {figure.path}")
 
+    # pdflatex treats backslashes in \includegraphics arguments as
+    # control sequences (e.g. '\Users'), so always hand it forward slashes.
+    latex_path = Path(figure.path).as_posix()
+
     lines = []
     lines.append(r"\begin{figure}[" + figure.placement + "]")
     lines.append(r"\centering")
-    lines.append(r"\includegraphics[width=" + figure.width + "]{" + figure.path + "}")
+    lines.append(r"\includegraphics[width=" + figure.width + "]{" + latex_path + "}")
     if figure.caption:
         lines.append(r"\caption{" + escape_latex(figure.caption) + "}")
     if figure.label:

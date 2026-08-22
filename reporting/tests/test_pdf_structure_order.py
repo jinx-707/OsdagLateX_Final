@@ -187,8 +187,8 @@ _STRESS_SECTIONS = 6
 _STRESS_ROWS = 35
 
 _STRESS_IMAGES = [
-    "C:/Users/Saatvika Reddy/Osdag_Vault/Osdag/src/osdag/data/ResourceFiles/images/endplate.png",
-    "C:/Users/Saatvika Reddy/Osdag_Vault/Osdag/src/osdag/data/ResourceFiles/images/extended.png",
+    os.path.join(os.path.dirname(__file__), "fixtures", "images", "endplate.png"),
+    os.path.join(os.path.dirname(__file__), "fixtures", "images", "extended.png"),
 ]
 
 
