@@ -1,0 +1,282 @@
+{
+  "title": "Beam Column End Plate Connection Design Report",
+  "author": "Osdag",
+  "subtitle": "Beam-to-Column End Plate Connection (Extended One Way - Irreversible Moment)",
+  "module": "Beam-to-Column End Plate Connection",
+  "config": {
+    "include_toc": true,
+    "include_list_of_figures": true,
+    "include_list_of_tables": true,
+    "style": "default"
+  },
+  "sections": [
+    {
+      "title": "Design Input",
+      "level": 1,
+      "content": [
+        "Module: Beam-to-Column End Plate Connection",
+        "Connectivity: Column Flange-Beam Web",
+        "Design Method: Limit State Design",
+        {
+          "type": "table",
+          "headers": [
+            "Parameter",
+            "Value"
+          ],
+          "rows": [
+            [
+              "End Plate Type",
+              "Extended One Way - Irreversible Moment"
+            ],
+            [
+              "Supported Section",
+              "WB 450"
+            ],
+            [
+              "Supporting Section",
+              "HB 450"
+            ],
+            [
+              "Section Material",
+              "E 250 (Fe 410 W)A"
+            ],
+            [
+              "Connector Material",
+              "E 250 (Fe 410 W)A"
+            ],
+            [
+              "Axial Load",
+              "15 kN"
+            ],
+            [
+              "Moment",
+              "210 kNm"
+            ],
+            [
+              "Shear Load",
+              "40 kN"
+            ]
+          ],
+          "caption": "Design input parameters (source: bc_ep_2.osi)",
+          "label": "tab:input"
+        }
+      ]
+    },
+    {
+      "title": "Bolt Data",
+      "level": 1,
+      "content": [
+        {
+          "type": "table",
+          "headers": [
+            "Parameter",
+            "Value"
+          ],
+          "rows": [
+            [
+              "Bolt Type",
+              "Bearing Bolt"
+            ],
+            [
+              "Bolt Grade",
+              "6.8 / 8.8 / 9.8"
+            ],
+            [
+              "Bolt Diameter (options)",
+              "20 mm / 24 mm / 30 mm"
+            ],
+            [
+              "Tension Type",
+              "Non pre-tensioned"
+            ],
+            [
+              "Bolt Hole Type",
+              "Standard"
+            ],
+            [
+              "Slip Factor",
+              "0.3"
+            ],
+            [
+              "Edge Type",
+              "Sheared or hand flame cut"
+            ],
+            [
+              "Gap",
+              "0 mm"
+            ]
+          ],
+          "caption": "Bolt configuration",
+          "label": "tab:bolt-data"
+        }
+      ]
+    },
+    {
+      "title": "Weld Data",
+      "level": 1,
+      "content": [
+        {
+          "type": "table",
+          "headers": [
+            "Parameter",
+            "Value"
+          ],
+          "rows": [
+            [
+              "Weld Type",
+              "Groove Weld"
+            ],
+            [
+              "Fabrication",
+              "Shop Weld"
+            ],
+            [
+              "Material Grade (OverWrite)",
+              "410 MPa"
+            ]
+          ],
+          "caption": "Weld configuration",
+          "label": "tab:weld-data"
+        }
+      ]
+    },
+    {
+      "title": "Design Checks",
+      "level": 1,
+      "subsections": [
+        {
+          "title": "Bolt Checks",
+          "level": 2,
+          "content": [
+            {
+              "type": "table",
+              "headers": [
+                "Check",
+                "Required",
+                "Provided",
+                "Status"
+              ],
+              "rows": [
+                [
+                  "Bolt Shear Capacity",
+                  "40.0 kN",
+                  "94.3 kN",
+                  "Pass"
+                ],
+                [
+                  "Bolt Bearing on Plate",
+                  "52.5 kN",
+                  "66.0 kN",
+                  "Pass"
+                ],
+                [
+                  "Bolt Bearing on Column Flange",
+                  "52.5 kN",
+                  "71.2 kN",
+                  "Pass"
+                ],
+                [
+                  "Bolt Tension (incl. prying)",
+                  "105.0 kN",
+                  "98.6 kN",
+                  "Fail"
+                ]
+              ],
+              "caption": "Bolt design checks (M20, Gr 8.8)",
+              "label": "tab:bolt-checks"
+            }
+          ]
+        },
+        {
+          "title": "End Plate Checks",
+          "level": 2,
+          "content": [
+            {
+              "type": "table",
+              "headers": [
+                "Check",
+                "Required",
+                "Provided",
+                "Status"
+              ],
+              "rows": [
+                [
+                  "Plate Bending (yield)",
+                  "178.4 MPa",
+                  "225.0 MPa",
+                  "Pass"
+                ],
+                [
+                  "Plate Shear",
+                  "28.9 MPa",
+                  "98.5 MPa",
+                  "Pass"
+                ],
+                [
+                  "Prying Force Ratio",
+                  "0.21",
+                  "0.30 max",
+                  "Pass"
+                ]
+              ],
+              "caption": "End plate design checks (t = 16 mm)",
+              "label": "tab:plate-checks"
+            }
+          ]
+        },
+        {
+          "title": "Weld Checks",
+          "level": 2,
+          "content": [
+            {
+              "type": "table",
+              "headers": [
+                "Check",
+                "Required",
+                "Provided",
+                "Status"
+              ],
+              "rows": [
+                [
+                  "Weld Strength",
+                  "141.2 MPa",
+                  "189.4 MPa",
+                  "Pass"
+                ]
+              ],
+              "caption": "Groove weld checks",
+              "label": "tab:weld-checks"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Connection Details",
+      "level": 1,
+      "content": [
+        {
+          "type": "figure",
+          "path": "reporting/tests/fixtures/images/endplate.png",
+          "caption": "End plate connection - side view",
+          "label": "fig:endplate-side"
+        },
+        {
+          "type": "figure",
+          "path": "reporting/tests/fixtures/images/extended.png",
+          "caption": "Extended end plate detail (Extended One Way)",
+          "label": "fig:endplate-extended"
+        }
+      ]
+    },
+    {
+      "title": "Design Summary",
+      "level": 1,
+      "content": [
+        "The beam-to-column end plate connection (WB 450 to HB 450, E 250 grade) was verified for Limit State Design under 15 kN axial, 210 kNm moment and 40 kN shear.",
+        "All checks pass except bolt tension including prying action (98.6 kN provided vs 105.0 kN required). Redesign by increasing bolt diameter to M24 or upgrading to Gr 9.8 is recommended."
+      ],
+      "force_page_break_before": true
+    }
+  ]
+}
