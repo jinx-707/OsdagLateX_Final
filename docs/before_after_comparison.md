@@ -1,198 +1,103 @@
-# Before/After Comparison: Osdag LaTeX Report Generator
+# Before / After — and the Float-Placement Bug We Caught in a Real PDF
 
-## Honesty Statement
+## The bug: floats drifting out of section order
 
-This comparison documents structural and behavioral differences between the
-**original monolithic `save_latex()` method** (`reportGenerator_latex.py`, 487 lines)
-and the **refactored `reporting/` package** (10 source files, ~400 lines of generators/templates).
+### Symptom
 
-**What was available for comparison:**
-- Full source code of the original `reportGenerator_latex.py` (read, analyzed, documented)
-- The original Osdag data structures (`uiObj`, `Design_Check`, `reportsummary`)
-- `docs/before_state.md` with deep structural analysis
+The first full PDF compiled from real Osdag data (`bc_ep_2.osi`, a
+Beam-to-Column End Plate connection) *looked* fine at a glance — until it was
+read against the Table of Contents. Tables belonging to section 4 ("Design
+Checks") were typeset on pages after section 5's heading, and figures declared
+inside "Connection Details" drifted into "Design Summary". The ToC promised one
+document order; the body delivered another.
 
-**What was NOT available:**
-- No legacy-generated PDFs exist in the workspace
-- No legacy-generated .tex files exist (old code writes ephemeral ones via pylatex)
-- `pylatex` is not installed, so the old code cannot be executed
-- No side-by-side PDF comparison is therefore possible
+### Root cause
 
-The regression tests in `test_regression.py` verify the **new pipeline faithfully
-transfers data** from JSON → Report → .tex. They are structural tests, not
-comparative tests against legacy output.
-
----
-
-## Structural Before/After
-
-### Original (`reportGenerator_latex.py`)
-
-| Aspect | Before |
-|--------|--------|
-| Lines of code | 487 (single method `save_latex()`) |
-| Architecture | Monolithic: one method builds entire PDF |
-| LaTeX generation | pylatex library (Document, Section, Tabularx, LongTable, etc.) |
-| Error handling | `except: pass` — all errors silently swallowed |
-| LaTeX escaping | None — `NoEscape()` used everywhere |
-| Template | Hardcoded in Python (no separate .tex template) |
-| Config | None — all options hardcoded |
-| Testability | Untestable — requires GUI, pylatex, pdflatex, images |
-| Connection types | 22+ modules call `save_latex()` with same monolithic code |
-| Code duplication | Subsection+LongTable pattern repeated per module |
-
-### Refactored (`reporting/` package)
-
-| Aspect | After |
-|--------|-------|
-| Lines of code | ~400 (generators + templates combined) |
-| Architecture | Layered: models → generators → templates → compiler |
-| LaTeX generation | Jinja2 templates + raw .tex string building |
-| Error handling | Structured `CompileResult` with `CompileErrorType` enum |
-| LaTeX escaping | Two-pass `escape_latex()` for all 10 special characters |
-| Template | Separate `base.tex` Jinja2 template |
-| Config | `ReportConfig` dataclass + `STYLE_REGISTRY` dict |
-| Testability | 80 unit/integration/regression tests, no GUI needed |
-| Connection types | Adapter pattern: `osdag_adapter.py` handles any connection type |
-| Code duplication | Shared `generate_table_latex()` / `generate_figure_latex()` |
-
----
-
-## Code Complexity Comparison
-
-### Original: Key Patterns
-
-The original `save_latex()` had these duplicated patterns:
-
-1. **Input Parameters section** (~80 lines): Iterate `uiObj`, handle `"TITLE"` sentinels,
-   render sub-dicts as section details with images, handle long strings >55 chars.
-
-2. **Design Checks section** (~60 lines): Iterate `Design_Check`, handle `'SubSection'`,
-   `'NewTable'`, `'Selected'` tuples, render rows with Pass/Fail color coding.
-
-3. **3D Views section** (~30 lines): Hardcoded 4-view grid with image existence checks.
-
-4. **Design Log section** (~20 lines): Color-coded log levels from `reportsummary`.
-
-Each of these patterns was essentially copy-pasted across 22+ connection modules.
-
-### Refactored: Shared Components
-
-| Component | Lines | Used by |
-|-----------|-------|---------|
-| `generators/table_generator.py` | 86 | All table rendering (was duplicated 22+ times) |
-| `generators/figure_generator.py` | 36 | All figure rendering (was duplicated) |
-| `generators/latex_generator.py` | 89 | All section/document rendering |
-| `templates/base.tex` | 48 | Document structure (was hardcoded in Python) |
-| `adapters/osdag_adapter.py` | 224 | All connection types (was per-module) |
-
-**Total shared code:** ~483 lines replacing ~487 × 22+ copies.
-
----
-
-## Bug Fixes Made During Refactor
-
-These are intentional differences from the old behavior:
-
-1. **LaTeX escaping added**: Old code used `NoEscape()` for all text, meaning special
-   characters (`\ & % $ # _ { } ~ ^`) would break compilation. New code escapes all
-   text through `escape_latex()`.
-
-2. **Error handling**: Old code had `except: pass` blocks that silently swallowed
-   compilation errors, missing images, and other failures. New code raises exceptions
-   and returns structured `CompileResult` objects.
-
-3. **Figure validation**: New code raises `FileNotFoundError` when an image path
-   doesn't exist, before attempting compilation. Old code would silently skip or
-   pass a broken path to pylatex.
-
-4. **Compiler error classification**: New code classifies compilation failures into
-   6 categories (`COMPILER_NOT_FOUND`, `MISSING_PACKAGE`, `MISSING_IMAGE`,
-   `SYNTAX_ERROR`, `TIMEOUT`, `UNKNOWN`). Old code showed a generic "Latex Creation
-   Error" dialog for all failures.
-
----
-
-## Concrete Artifact: New Pipeline Output
-
-A sample `.tex` file was generated from `bc_end_plate_real.json` using the new pipeline:
-
-**Output:** `C:\Users\SAATVI~1\AppData\Local\Temp\opencode\new_pipeline_output.tex`
-
-### Document structure produced by new pipeline:
+LaTeX gives no guarantee that a `\begin{table}[h]` float is typeset where it is
+declared. When a `[h]` float does not fit on the current page, LaTeX defers it
+into a float queue and places it at the top of a *later* page — often after the
+next section heading has already been typeset. With many consecutive tables
+(exactly what a design-check report is), the queue backs up and entire tables
+leak across section boundaries:
 
 ```latex
-\documentclass[12pt]{article}
-\usepackage{geometry}
-\geometry{a4paper, margin=1in}
-\usepackage{graphicx}
-\usepackage{longtable}
-\usepackage{tabularx}
-\usepackage{multirow}
-\usepackage{colortbl}
-\usepackage{hyperref}
-\definecolor{OsdagGreen}{RGB}{0,128,0}
-...
-\title{\textbf{{ Beam-to-Column End Plate Connection Design Report }}}
-\author{{ Engineer }}
-\date{{ \today }}
-\begin{document}
-\maketitle
-\tableofcontents
-\newpage
-\listoftables
-\newpage
-\section{Input Parameters}
-... (6 subsections with longtable input tables)
-\section{Design Checks}
-... (9 subsections with design check tables)
-\end{document}
+\section{Design Checks}          % typeset immediately
+\begin{table}[h] ... \end{table} % doesn't fit -> deferred
+\begin{table}[h] ... \end{table} % queued behind it
+\section{Connection Details}     % typeset BEFORE the queued tables appear
 ```
 
-### What the old `save_latex()` would have produced (reconstructed from code analysis):
+This is correct LaTeX behaviour and entirely invisible to unit tests that only
+inspect the generated `.tex` source — the `.tex` file was perfectly ordered.
+Only the *rendered* output was wrong.
 
-The old code used pylatex to build a `Document` object. The equivalent .tex
-would have included the same sections but with these differences:
+### Diagnosis
+
+The compiled PDF's page order was compared against the source `Report` model:
+for every section, the page number of each table/figure caption was checked
+against the page numbers of its own heading and of the following section's
+heading. Captions appearing on later pages than the next section's heading
+proved the drift. (Manual, one-off — which is exactly why it is now automated,
+see below.)
+
+### Fix
+
+`reporting/generators/latex_generator.render_section()` now emits
+`\FloatBarrier` after each section's content (before rendering subsections),
+and both templates load the `placeins` package. A barrier flushes all pending
+floats before the next heading may appear, so a section's tables and figures
+are always typeset inside that section:
 
 ```latex
-% OLD: pylatex-generated preamble (reconstructed)
-\documentclass{article}
-\usepackage[margin=1.0in]{geometry}
-\usepackage{graphicx}
-\usepackage{longtable}
-\usepackage{tabularx}
-\usepackage{colortbl}
-% ... (no hyperref, no multirow in old code)
-% OLD: Custom colors defined differently
-\definecolor{OsdagGreen}{RGB}{0,128,0}
-\definecolor{PassColor}{RGB}{0,128,0}
-\definecolor{FailColor}{RGB}{255,0,0}
-\definecolor{Red}{RGB}{255,0,0}
-\definecolor{Green}{RGB}{0,128,0}
-% OLD: No \title/\author/\date — header built manually via Tabularx
-\begin{document}
-% OLD: Page header with company logo + Osdag header (hardcoded Tabularx)
-% OLD: \section{Input Parameters} — same structure
-% OLD: \section{Design Checks} — same structure
-% OLD: \section{2D Drawings} — module-specific, NOT in new pipeline
-% OLD: \section{3D Views} — hardcoded 4-view grid, NOT in new pipeline
-% OLD: \section{Design Log} — from reportsummary, NOT in new pipeline
-\end{document}
+\usepackage{placeins}   % templates/base.tex, templates/compact.tex
 ```
 
-### Key differences (text diff summary):
+```python
+# latex_generator.render_section()
+lines.append("\\FloatBarrier")   # after content, before subsections
+```
 
-| Aspect | Old (save_latex) | New (reporting/) |
-|--------|-----------------|-------------------|
-| Preamble | pylatex-managed, no `hyperref`/`multirow` | Explicit in template, includes all needed packages |
-| Title | Hardcoded Tabularx header with logo | `\title{}` + `\maketitle` |
-| Colors | 5 colors (OsdagGreen, PassColor, FailColor, Red, Green) | 3 colors (OsdagGreen, OsdagRed, OsdagBlue) |
-| Escaping | None (`NoEscape` everywhere) | All text through `escape_latex()` |
-| 2D/3D sections | Present (module-specific) | Not included (out of scope for core model) |
-| Design Log | Present (from reportsummary) | Not included (out of scope for core model) |
-| Sections | 5 fixed sections | Model-driven (Input + Design Checks) |
-| Tables | pylatex LongTable/Tabularx | Raw `\begin{longtable}` via Jinja2 |
+### Locked in with a regression test
 
-**Note:** The 2D Drawings, 3D Views, and Design Log sections were intentionally
-omitted from the new pipeline's core model. They can be added via the `Figure`
-model and string content when needed, but were not part of the core structural
-report refactoring scope.
+`reporting/tests/test_pdf_structure_order.py` compiles documents to real PDFs,
+extracts per-page text with `pypdf`, and asserts three invariants against the
+source model:
+
+1. a caption never appears on an earlier page than its parent section heading;
+2. headings appear in non-decreasing page order;
+3. **no caption appears on a later page than the next section heading** — the
+   exact failure mode described above.
+
+The test suite was verified both ways (red/green): with `\FloatBarrier`
+temporarily removed from the generator, both ordering tests fail loudly —
+
+```
+Float drifted out of order: caption 'Stress table for section 2' found on
+page 5, but the next section heading is already on page 2 - floats have
+drifted out of order. Check that \FloatBarrier is emitted after each section.
+```
+
+— and with the fix restored, all tests pass. Because the short fixture alone
+never overflows a page, the suite also compiles a dense 6-section stress
+document (35-row tables + figures) that forces float reflow when unbarriered;
+that is what makes the test genuinely able to catch the bug rather than
+vacuously pass.
+
+## Architecture before / after
+
+| | Before (`Osdag/design_report/`) | After (`reporting/`) |
+|---|---|---|
+| Structure | One 487-line `save_latex()` per report generator, duplicated across modules | Layered package: models → adapters → generators → compiler |
+| Input coupling | Reads GUI widget objects directly | Plain-data `uiObj` dict via adapter; native JSON also supported |
+| Error handling | Silent failures (`except: pass`), cryptic pdflatex logs | Structured `CompileResult` with typed `error_type` |
+| Float placement | Unmanaged `[h]` floats; ordering bugs only found by reading PDFs | `\FloatBarrier` per section, enforced by automated PDF-order regression tests |
+| Styles | Hardcoded preamble strings | Jinja2 templates (`base`, `compact`) selected via style registry |
+| Testing | None | 88 tests incl. end-to-end compile-and-inspect-PDF checks |
+
+## Honest metrics
+
+The rewrite is a modest line-count increase (≈735 lines of legacy generator
+code → ≈1,032 lines across the package). That increase buys maintainability
+(one model, N modules), safety (structured errors instead of silent ones), and
+extensibility (a new connection type is fixture data, not new code — see the
+three-connection-type proof in the README).

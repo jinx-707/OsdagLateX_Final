@@ -1,12 +1,29 @@
-venv/
-.venv/
+# Python
 __pycache__/
 *.py[cod]
+*.pyc
+.venv/
+venv/
 .pytest_cache/
 .coverage
 .coverage.*
-htmlcov/venv/ 
-__pycache__/ 
-*.pyc 
-.pytest_cache/ 
-.coverage 
+htmlcov/
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# Generated report output
+out/
+
+# Packaging
+*.egg-info/
+build/
+dist/

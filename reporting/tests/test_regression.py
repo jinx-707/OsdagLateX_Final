@@ -72,6 +72,19 @@ def base_plate_real_report():
     )
 
 
+@pytest.fixture
+def fin_plate_real_report():
+    path = os.path.join(FIXTURES, "fin_plate_real.json")
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    return build_report(
+        uiObj=data["uiObj"],
+        design_check=data["design_check"],
+        reportsummary=data.get("reportsummary"),
+        module_name="Fin Plate Connection",
+    )
+
+
 def _render(report, tmp_path, name):
     output = str(tmp_path / f"{name}.tex")
     render_report(report, output)
@@ -186,5 +199,42 @@ class TestBasePlateOsdag:
 
     def test_no_pylatex_leak(self, base_plate_real_report, tmp_path):
         content = _render(base_plate_real_report, tmp_path, "osdag_bp")
+        assert "<pylatex" not in content
+        assert "pylatex" not in content.lower()
+
+
+class TestFinPlateOsdag:
+    """Third connection type - proves the adapter generalizes with zero
+    adapter changes (shear-only loads, pretensioned bolts, no plate type)."""
+
+    def test_loads_correctly(self, fin_plate_real_report):
+        r = fin_plate_real_report
+        assert "Fin Plate" in r.title
+        assert r.author  # populated from reportsummary
+
+    def test_render_produces_tex(self, fin_plate_real_report, tmp_path):
+        content = _render(fin_plate_real_report, tmp_path, "osdag_fin")
+        assert r"\begin{document}" in content
+        assert r"\end{document}" in content
+
+    def test_design_checks_present(self, fin_plate_real_report, tmp_path):
+        content = _render(fin_plate_real_report, tmp_path, "osdag_fin")
+        assert "Design Checks" in content
+        assert "Initial Section Check" in content
+        assert "Bolt Design" in content
+        assert "Section Design" in content
+        assert "Weld Design" in content
+
+    def test_section_details_present(self, fin_plate_real_report, tmp_path):
+        content = _render(fin_plate_real_report, tmp_path, "osdag_fin")
+        assert "MB 500" in content
+        assert "UC 356 x 406 x 393" in content
+
+    def test_fail_status_preserved(self, fin_plate_real_report, tmp_path):
+        content = _render(fin_plate_real_report, tmp_path, "osdag_fin")
+        assert "Fail" in content
+
+    def test_no_pylatex_leak(self, fin_plate_real_report, tmp_path):
+        content = _render(fin_plate_real_report, tmp_path, "osdag_fin")
         assert "<pylatex" not in content
         assert "pylatex" not in content.lower()

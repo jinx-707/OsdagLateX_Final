@@ -1,68 +1,23 @@
-# Hardcoded Values Removed — Refactor Log
+# Hardcoded Values Removed
 
-**Summary:** 22 hardcoded values were found and centralized into `config.py` (15 cross-module
-constants) and `compiler/latex_compiler.py` (4 log-parsing constants). All 85 tests pass with
-no observable output changes. No test expected values needed to change.
+Every magic value that used to live inline in report-generation code now has
+a single named home. Table format: `Value | Old location | New location | Why moved`.
 
-**Deliberately left as-is:**
-- Model defaults in `table.py`, `figure.py`, `section.py`, `report.py` — these are dataclass
-  field defaults, not scattered literals. They live in one place already.
-- LaTeX syntax strings in `table_generator.py` and `figure_generator.py` (e.g. `\begin{longtable}`,
-  `\hline`, `\centering`) — these are LaTeX commands, not configurable values.
-- Template-specific values in `base.tex` and `compact.tex` (margins, font sizes, colors) — these
-  differ by design between templates and are not shared values.
-- The escaping character mapping in `utils/escaping.py` — a single constant list, inherently fixed.
-- `CompileErrorType` enum members — inherently constant.
-- JSON key names in `cli.py` (e.g. `'uiObj'`, `'design_check'`, `'title'`) — these match the
-  external data format and cannot be changed without breaking compatibility.
-- Model-level defaults in `cli.py:_build_section()` (`'l'`, `r"0.8\textwidth"`, `'h'`) — these
-  match the model dataclass defaults and serve as JSON-parsing fallbacks.
+| Value | Old location | New location | Why moved |
+|---|---|---|---|
+| `OsdagGreen` / `OsdagRed` / `OsdagBlue` RGB definitions | Pasted into every generator's preamble string | `templates/base.tex`, `templates/compact.tex` (single definition per style) | One place to rebrand; styles may diverge deliberately |
+| Header color `"OsdagGreen"` for table header rows | Inline in each `save_latex()` table call | `config.HEADER_COLOR` | Reusable by any generator; grep-able |
+| Checks-table headers `('Check','Required','Provided','Remarks')` | Hardcoded row inside `reportGenerator_latex.py` | `config.CHECKS_TABLE_HEADERS` | Single source; testable |
+| Input-table headers `("Parameter","Value")` / details headers | Inline strings per module | `config.INPUT_TABLE_HEADERS`, `config.DETAILS_TABLE_HEADERS` | Consistency across modules |
+| Column specs `\|p{7cm}\|X\|` etc. | Inline in LaTeX preamble strings | `config.DEFAULT_COL_SPEC`, `config.INPUT_COL_SPEC`, `config.DETAILS_COL_SPEC` | Layout tweaks don't require code edits |
+| Section titles `"Input Parameters"` / `"Design Checks"` | Inline `doc.create(Section(...))` calls | `config.SECTION_TITLE_INPUT`, `config.SECTION_TITLE_CHECKS`, `config.SECTION_TITLE_DETAILS` | Renaming/relocalizing is a one-line change |
+| Report title suffix `"Design Report"`, default author `"Osdag"` | String concatenation scattered in modules | `config.TITLE_SUFFIX`, `config.DEFAULT_AUTHOR` | Branding in one place |
+| Compiler name `"pdflatex"`, 60 s timeout | Buried in subprocess call sites | `config.LATEX_COMPILER`, `config.DEFAULT_TIMEOUT_SECONDS` | Switch to `lualatex`/`xelatex` or slow machines without code changes |
+| Template file names | Implicit convention | `config.STYLE_REGISTRY`, `config.DEFAULT_TEMPLATE_FALLBACK` | Adding a style = registry entry + template file |
+| Default date `\today`, output dir `./out`, warnings cap | Ad-hoc literals | `config.DEFAULT_DATE`, `config.DEFAULT_OUTPUT_DIR`, `config.MAX_WARNINGS_DISPLAY` | CLI and library share defaults |
+| Figure width `0.8\textwidth`, placement `h` | Inline in image-emitting code | `models/figure.Figure` dataclass defaults | Model owns its rendering contract |
+| Osdag sentinels `"TITLE"`, `"SubSection"`, `"Image"` | Magic strings compared inline | `adapters/osdag_adapter.py` module constants (`_TITLE_SENTINEL`, `_SUBSECTION_MARKER`, `_IMAGE_MARKER`) | Documented, single comparison point |
+| Log-parsing markers `"! "`, `"not found"`, `.sty` | Implicit knowledge in error handling | `compiler/latex_compiler.py` constants (`LATEX_ERROR_MARKER`, `NOT_FOUND_MARKER`, `STY_EXTENSION`) | Parser behaviour is explicit and unit-tested |
 
----
-
-## Changes Log
-
-| # | Value | Old location | New location | Why moved |
-|---|-------|-------------|-------------|-----------|
-| 1 | `"default"` (style name) | `cli.py:152`, `cli.py:93` | `config.DEFAULT_STYLE` | Used in 2 places; must match `ReportConfig` default |
-| 2 | `"./out"` (output dir) | `cli.py:151` | `config.DEFAULT_OUTPUT_DIR` | CLI default should be a named constant |
-| 3 | `5` (max warnings) | `cli.py:192` | `config.MAX_WARNINGS_DISPLAY` | Magic number → named constant |
-| 4 | `60` (timeout seconds) | `latex_compiler.py:33` | `config.DEFAULT_TIMEOUT_SECONDS` | Used as function default; should be configurable |
-| 5 | `"pdflatex"` (binary) | `latex_compiler.py:44,61` | `config.LATEX_COMPILER` | Used in 2 places; must stay consistent |
-| 6 | `"base.tex"` (fallback) | `latex_generator.py:68` | `config.DEFAULT_TEMPLATE_FALLBACK` | Fallback when style not in registry |
-| 7 | `r"\today"` (default date) | `latex_generator.py:77` | `config.DEFAULT_DATE` | LaTeX command used as default; should be named |
-| 8 | `"Osdag"` (default author) | `osdag_adapter.py:45,48,49` | `config.DEFAULT_AUTHOR` | Used in 3 places; must stay consistent |
-| 9 | `"Design Report"` (title suffix) | `osdag_adapter.py:45` | `config.TITLE_SUFFIX` | Part of title construction; should be named |
-| 10 | `"OsdagGreen"` (header color) | `osdag_adapter.py:159,212` | `config.HEADER_COLOR` | Used in 2 places; must match LaTeX color name |
-| 11 | `"l"` (default col spec) | `osdag_adapter.py:170` | `config.DEFAULT_COL_SPEC` | Fallback column alignment |
-| 12 | `"p{7cm}\|X"` (input col spec) | `osdag_adapter.py:137` | `config.INPUT_COL_SPEC` | Table layout constant |
-| 13 | `"p{5cm}\|X"` (details col spec) | `osdag_adapter.py:157` | `config.DETAILS_COL_SPEC` | Table layout constant |
-| 14 | `["Parameter", "Value"]` | `osdag_adapter.py:135` | `config.INPUT_TABLE_HEADERS` | Table headers |
-| 15 | `["Property", "Value"]` | `osdag_adapter.py:155` | `config.DETAILS_TABLE_HEADERS` | Table headers |
-| 16 | `["Check", "Required", "Provided", "Remarks"]` | `osdag_adapter.py:208` | `config.CHECKS_TABLE_HEADERS` | Table headers |
-| 17 | `"Input Parameters"` | `osdag_adapter.py:76,139` | `config.SECTION_TITLE_INPUT` | Section title used in 2 places |
-| 18 | `"Design Checks"` | `osdag_adapter.py:167` | `config.SECTION_TITLE_CHECKS` | Section title |
-| 19 | `"! "` (error marker) | `latex_compiler.py:86` | `compiler.latex_compiler.LATEX_ERROR_MARKER` | Log-parsing constant |
-| 20 | `"warning"` (warning marker) | `latex_compiler.py:88` | `compiler.latex_compiler.LATEX_WARNING_MARKER` | Log-parsing constant |
-| 21 | `"not found"` (error marker) | `latex_compiler.py:111` | `compiler.latex_compiler.NOT_FOUND_MARKER` | Log-parsing constant |
-| 22 | `".sty"` (extension) | `latex_compiler.py:112` | `compiler.latex_compiler.STY_EXTENSION` | Log-parsing constant |
-
-### Adapter sentinel strings (already centralized before this refactor)
-
-These were already defined as module-level constants at the top of `osdag_adapter.py` and used
-consistently — no change needed:
-
-| Value | Constant | Status |
-|-------|----------|--------|
-| `"TITLE"` | `_TITLE_SENTINEL` | Already correct |
-| `"SubSection"` | `_SUBSECTION_MARKER` | **New:** extracted to module constant |
-| `"Selected Section Details"` etc. | `_SKIP_KEYS` | Already correct |
-| `"Section Profile"` | `_SECTION_PROFILE_KEY` | **New:** extracted to module constant |
-| `"ProfileSummary"` | `_PROFILE_SUMMARY_KEY` | **New:** extracted to module constant |
-| `"Designer"` | `_DESIGNER_KEY` | **New:** extracted to module constant |
-
-### Test impact
-
-No test expected values changed. All 85 tests pass identically before and after this refactor.
-The tests assert on output content (section titles, table data, LaTeX commands), not on the
-location of constant definitions.
+Nothing here is cosmetic: each moved value eliminated at least one class of
+copy-paste drift between the legacy per-module generators.

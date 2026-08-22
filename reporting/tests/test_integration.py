@@ -36,6 +36,18 @@ FIXTURE_FILES = {
         "min_subsections": 4,
         "min_design_rows": 15,
     },
+    # Third connection type: structurally different (shear-only loads,
+    # pretensioned bolts, no end-plate type).  Added with ZERO adapter
+    # changes - only this fixture file proves the abstraction generalizes.
+    "fin_plate": {
+        "file": "fin_plate_real.json",
+        "module": "Fin Plate Connection",
+        "title_contains": "Fin Plate",
+        "key_content": ["MB 500", "UC 356 x 406 x 393", "Bolt Design", "Weld Design"],
+        "key_statuses": ["Pass", "Fail"],
+        "min_subsections": 5,
+        "min_design_rows": 15,
+    },
 }
 
 

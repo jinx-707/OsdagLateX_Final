@@ -2,10 +2,12 @@
 
 import logging
 import os
+import re
 import subprocess
 import shutil
 from dataclasses import dataclass
 from enum import Enum
+from pathlib import Path
 from typing import Optional, List
 
 from reporting.config import LATEX_COMPILER, DEFAULT_TIMEOUT_SECONDS
@@ -38,6 +40,26 @@ class CompileResult:
     raw_log: Optional[str]
 
 
+def _long_path(path: str) -> str:
+    r"""Expand 8.3 short-path components (e.g. 'SAATVI~1') to long form.
+
+    pdflatex treats '~' anywhere in its file-name argument as an active
+    character (non-breaking space) and aborts, so short paths must never
+    reach it.
+    """
+    if os.name != "nt" or "~" not in path:
+        return path
+    try:
+        import ctypes
+
+        buf = ctypes.create_unicode_buffer(32768)
+        if ctypes.windll.kernel32.GetLongPathNameW(path, buf, len(buf)):
+            return buf.value
+    except Exception:  # pragma: no cover - best effort only
+        pass
+    return path
+
+
 def compile_latex(tex_path: str, timeout_seconds: int = DEFAULT_TIMEOUT_SECONDS) -> CompileResult:
     """
     Compile a .tex file to PDF using pdflatex.
@@ -64,9 +86,14 @@ def compile_latex(tex_path: str, timeout_seconds: int = DEFAULT_TIMEOUT_SECONDS)
     tex_base = os.path.splitext(os.path.basename(tex_path))[0]
     pdf_path = os.path.join(tex_dir, f"{tex_base}.pdf")
 
+    # pdflatex treats backslashes in arguments as control sequences,
+    # so always hand it forward-slash paths.
+    tex_path_arg = Path(_long_path(os.path.abspath(tex_path))).as_posix()
+    tex_dir_arg = Path(_long_path(tex_dir)).as_posix()
+
     try:
         process = subprocess.run(
-            [LATEX_COMPILER, "-interaction=nonstopmode", "-output-directory", tex_dir, tex_path],
+            [LATEX_COMPILER, "-interaction=nonstopmode", "-output-directory", tex_dir_arg, tex_path_arg],
             capture_output=True,
             text=True,
             timeout=timeout_seconds,
@@ -98,6 +125,22 @@ def compile_latex(tex_path: str, timeout_seconds: int = DEFAULT_TIMEOUT_SECONDS)
     else:
         raw_log = process.stdout + "\n" + process.stderr
 
+    # A PDF existing is not the same as compilation succeeding: in
+    # nonstopmode pdflatex plows past fatal errors (e.g. a missing image)
+    # and still writes a defective PDF.  If the log shows missing files,
+    # report failure even when a PDF was produced.
+    if errors and NOT_FOUND_MARKER in "\n".join(errors).lower():
+        error_type, error_message = _classify_errors(errors)
+        logger.error("PDF compilation failed for %s", tex_path)
+        return CompileResult(
+            success=False,
+            pdf_path=None,
+            error_type=error_type,
+            error_message=error_message,
+            warnings=warnings,
+            raw_log=raw_log,
+        )
+
     if pdf_exists:
         logger.info("PDF generated: %s", pdf_path)
         if warnings:
@@ -111,21 +154,9 @@ def compile_latex(tex_path: str, timeout_seconds: int = DEFAULT_TIMEOUT_SECONDS)
             raw_log=raw_log,
         )
 
-    error_type = None
-    error_message = None
     logger.error("PDF compilation failed for %s", tex_path)
     if errors:
-        combined = "\n".join(errors)
-        if NOT_FOUND_MARKER in combined.lower():
-            if STY_EXTENSION in combined:
-                error_type = CompileErrorType.MISSING_PACKAGE
-                error_message = "Missing LaTeX package (sty file)."
-            else:
-                error_type = CompileErrorType.MISSING_IMAGE
-                error_message = "Missing image file referenced in document."
-        else:
-            error_type = CompileErrorType.SYNTAX_ERROR
-            error_message = "LaTeX syntax error. Check log for details."
+        error_type, error_message = _classify_errors(errors)
     else:
         error_type = CompileErrorType.UNKNOWN
         error_message = "PDF not generated, but no obvious LaTeX errors found."
@@ -137,4 +168,39 @@ def compile_latex(tex_path: str, timeout_seconds: int = DEFAULT_TIMEOUT_SECONDS)
         error_message=error_message,
         warnings=warnings,
         raw_log=raw_log,
+    )
+
+
+_MISSING_FILE_RE = re.compile(r"File [`'](.+?)' not found")
+
+
+def _classify_errors(errors):
+    """Map LaTeX log error lines to a (CompileErrorType, message) pair."""
+    combined = "\n".join(errors)
+    match = _MISSING_FILE_RE.search(combined)
+    missing_name = match.group(1) if match else None
+
+    if NOT_FOUND_MARKER in combined.lower():
+        if STY_EXTENSION in combined:
+            if missing_name:
+                return (
+                    CompileErrorType.MISSING_PACKAGE,
+                    f"Required package '{missing_name}' not found.",
+                )
+            return (
+                CompileErrorType.MISSING_PACKAGE,
+                "Missing LaTeX package (sty file).",
+            )
+        if missing_name:
+            return (
+                CompileErrorType.MISSING_IMAGE,
+                f"Figure at '{missing_name}' not found.",
+            )
+        return (
+            CompileErrorType.MISSING_IMAGE,
+            "Missing image file referenced in document.",
+        )
+    return (
+        CompileErrorType.SYNTAX_ERROR,
+        "LaTeX syntax error. Check log for details.",
     )

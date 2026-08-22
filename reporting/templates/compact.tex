@@ -6,7 +6,10 @@
 \usepackage{longtable}
 \usepackage{tabularx}
 \usepackage{multirow}
+\usepackage{xcolor}
 \usepackage{colortbl}
+\usepackage{placeins}
+\usepackage{fancyhdr}
 \usepackage{hyperref}
 \usepackage{titlesec}
 
@@ -20,6 +23,18 @@
 \definecolor{OsdagRed}{RGB}{255,0,0}
 \definecolor{OsdagBlue}{RGB}{0,0,255}
 
+% Pass/Fail status cell backgrounds (light pastels keep black text readable)
+\definecolor{passgreen}{RGB}{198,239,206}
+\definecolor{failred}{RGB}{255,199,206}
+
+% Disclaimer footer (no dedicated title page in this style: footer shows on all pages)
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[L]{\footnotesize\textit{ {{ disclaimer }} }}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
 \begin{document}
 
 \begin{center}
@@ -32,6 +47,19 @@
 \begin{center}
 {\large {{ subtitle }}}
 \end{center}
+{% endif %}
+
+{% if module_name or report_id %}
+\begin{center}
+\small
+\begin{tabular}{ll}
+{% if module_name %}\textbf{Module:} & {{ module_name }} \\{% endif %}
+{% if report_id %}\textbf{Report ID:} & {{ report_id }} \\{% endif %}
+\textbf{Generated:} & {{ date }} \\
+\end{tabular}
+\end{center}
+\noindent\rule{\textwidth}{0.4pt}
+\vspace{0.5em}
 {% endif %}
 
 {% if include_toc %}

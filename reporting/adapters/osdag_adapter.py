@@ -19,11 +19,15 @@ from reporting.config import (
     CHECKS_TABLE_HEADERS,
     SECTION_TITLE_INPUT,
     SECTION_TITLE_CHECKS,
+    SECTION_TITLE_DETAILS,
+    DETAILS_INTRO_TEXT,
 )
 
 # ── Osdag data-format sentinels ──────────────────────────────────────
 _TITLE_SENTINEL = "TITLE"
 _SUBSECTION_MARKER = "SubSection"
+_IMAGE_MARKER = "Image"  # Common.TYPE_IMAGE
+_MODULE_KEY = "Module"  # uiObj key supplying the module display name
 
 # ── Keys to skip in the input table ──────────────────────────────────
 _SKIP_KEYS = {
@@ -69,6 +73,9 @@ def build_report(
         author = reportsummary.get(_PROFILE_SUMMARY_KEY, {}).get(_DESIGNER_KEY, DEFAULT_AUTHOR)
     author = author or DEFAULT_AUTHOR
 
+    # Metadata: reuse the same uiObj field the legacy "Module:" line used.
+    display_module = uiObj.get(_MODULE_KEY) or module_name or None
+
     sections: List[Section] = []
 
     # 1. Input Parameters section
@@ -77,6 +84,11 @@ def build_report(
     # 2. Design Checks section
     sections.append(_build_design_checks_section(design_check))
 
+    # 3. Connection Details section (figures extracted from design_check)
+    details_section = _build_connection_details_section(design_check)
+    if details_section is not None:
+        sections.append(details_section)
+
     config = ReportConfig(include_toc=True, include_list_of_figures=True, include_list_of_tables=True)
 
     return Report(
@@ -84,6 +96,7 @@ def build_report(
         author=author,
         sections=sections,
         config=config,
+        module_name=display_module,
     )
 
 
@@ -232,6 +245,68 @@ def _make_checks_table(rows: List[List[str]], col_spec: str) -> Table:
         use_longtable=True,
         header_color=HEADER_COLOR,
     )
+
+
+def _build_connection_details_section(design_check: List[Tuple]) -> Section | None:
+    """Extract TYPE_IMAGE tuples from design_check into a 'Connection Details' section.
+
+    Osdag modules emit image entries in two shapes:
+
+      (label_or_None, caption_or_None, 'Image', str_path)
+      (label_or_None, caption_or_None, 'Image', [path, width, height, caption])
+
+    All figures are attached to the content list of a single top-level
+    'Connection Details' section.  Returns None when no images are present.
+    """
+    figures: List[Figure] = []
+
+    for item in design_check or []:
+        if not isinstance(item, (list, tuple)) or len(item) != 4:
+            continue
+        if item[2] != _IMAGE_MARKER:
+            continue
+
+        payload = item[3]
+        caption = str(item[1]) if item[1] else ""
+
+        if isinstance(payload, (list, tuple)):
+            if not payload:
+                continue
+            path = str(payload[0])
+            if len(payload) >= 4 and payload[3]:
+                caption = str(payload[3])
+            width = _normalize_width(payload[1] if len(payload) >= 2 else None)
+        else:
+            path = str(payload)
+            width = None
+
+        figure = Figure(
+            path=path,
+            caption=caption,
+            label=f"fig:connection-details-{len(figures) + 1}",
+        )
+        if width is not None:
+            figure.width = width
+        figures.append(figure)
+
+    if not figures:
+        return None
+
+    return Section(
+        title=SECTION_TITLE_DETAILS,
+        level=1,
+        content=[DETAILS_INTRO_TEXT] + figures,
+    )
+
+
+def _normalize_width(value: Any) -> str | None:
+    """Map an Osdag numeric width (cm) to a LaTeX width spec."""
+    if value is None:
+        return None
+    try:
+        return f"{float(str(value))}cm"
+    except (TypeError, ValueError):
+        return None
 
 
 def _format_value(v: Any) -> str:

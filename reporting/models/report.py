@@ -1,6 +1,12 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
+from uuid import uuid4
 from .section import Section
+
+
+def _generate_report_id() -> str:
+    """Generate a short report ID once, at Report construction time."""
+    return f"OSDAG-{uuid4().hex[:8].upper()}"
 
 
 @dataclass
@@ -25,6 +31,10 @@ class Report:
         config: Generation options.
         subtitle: Optional subtitle.
         date: Optional date string (if None, \\today is used).
+        module_name: Optional module name for the metadata block
+            (e.g. "Beam-to-Column End Plate Connection").
+        report_id: Optional report identifier; auto-generated at construction
+            when omitted, and stable across re-renders of the same instance.
     """
     title: str
     author: str
@@ -32,3 +42,11 @@ class Report:
     config: ReportConfig = field(default_factory=ReportConfig)
     subtitle: Optional[str] = None
     date: Optional[str] = None
+    module_name: Optional[str] = None
+    report_id: Optional[str] = field(default_factory=_generate_report_id)
+
+    def __post_init__(self):
+        # Callers (e.g. CLI) may pass report_id=None explicitly;
+        # still generate a stable ID for this instance.
+        if not self.report_id:
+            self.report_id = _generate_report_id()

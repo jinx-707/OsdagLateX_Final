@@ -16,19 +16,41 @@
         "This report presents the design check results for a bolted end plate connection between a beam and a column.",
         {
           "type": "table",
-          "headers": ["Parameter", "Value"],
+          "headers": [
+            "Parameter",
+            "Value"
+          ],
           "rows": [
-            ["Bolt diameter", "20 mm"],
-            ["Number of bolts", "8"],
-            ["Plate thickness", "12 mm"],
-            ["Design strength", "250 MPa"],
-            ["Pitch", "60 mm"],
-            ["Gauge", "90 mm"]
+            [
+              "Bolt diameter",
+              "20 mm"
+            ],
+            [
+              "Number of bolts",
+              "8"
+            ],
+            [
+              "Plate thickness",
+              "12 mm"
+            ],
+            [
+              "Design strength",
+              "250 MPa"
+            ],
+            [
+              "Pitch",
+              "60 mm"
+            ],
+            [
+              "Gauge",
+              "90 mm"
+            ]
           ],
           "caption": "Design summary parameters",
           "label": "tab:design-summary"
         }
-      ]
+      ],
+      "force_page_break_before": true
     },
     {
       "title": "Connection Geometry",
@@ -37,11 +59,27 @@
         "The connection geometry is shown in Figure below.",
         {
           "type": "table",
-          "headers": ["Component", "Grade", "Size"],
+          "headers": [
+            "Component",
+            "Grade",
+            "Size"
+          ],
           "rows": [
-            ["End Plate", "E250", "300 x 200 x 12 mm"],
-            ["Bolt", "Grade 8.8", "M20"],
-            ["Weld", "E7018", "6 mm fillet"]
+            [
+              "End Plate",
+              "E250",
+              "300 x 200 x 12 mm"
+            ],
+            [
+              "Bolt",
+              "Grade 8.8",
+              "M20"
+            ],
+            [
+              "Weld",
+              "E7018",
+              "6 mm fillet"
+            ]
           ],
           "caption": "Connection components",
           "label": "tab:components"
@@ -55,12 +93,32 @@
             "The bolts are arranged in two rows of four, symmetric about the beam flange centerline.",
             {
               "type": "table",
-              "headers": ["Row", "Bolt Position", "Distance from Center"],
+              "headers": [
+                "Row",
+                "Bolt Position",
+                "Distance from Center"
+              ],
               "rows": [
-                ["1", "Left-Top", "45 mm"],
-                ["2", "Right-Top", "45 mm"],
-                ["3", "Left-Bottom", "45 mm"],
-                ["4", "Right-Bottom", "45 mm"]
+                [
+                  "1",
+                  "Left-Top",
+                  "45 mm"
+                ],
+                [
+                  "2",
+                  "Right-Top",
+                  "45 mm"
+                ],
+                [
+                  "3",
+                  "Left-Bottom",
+                  "45 mm"
+                ],
+                [
+                  "4",
+                  "Right-Bottom",
+                  "45 mm"
+                ]
               ],
               "caption": "Bolt positions",
               "label": "tab:bolt-positions"
@@ -75,12 +133,37 @@
       "content": [
         {
           "type": "table",
-          "headers": ["Check", "Demand", "Capacity", "Status"],
+          "headers": [
+            "Check",
+            "Demand",
+            "Capacity",
+            "Status"
+          ],
           "rows": [
-            ["Bolt shear", "45.2 kN", "71.2 kN", "PASS"],
-            ["Bearing on plate", "67.8 kN", "102.4 kN", "PASS"],
-            ["Plate bending", "28.5 kNm", "34.2 kNm", "PASS"],
-            ["Weld strength", "52.1 kN/mm", "61.8 kN/mm", "PASS"]
+            [
+              "Bolt shear",
+              "45.2 kN",
+              "71.2 kN",
+              "PASS"
+            ],
+            [
+              "Bearing on plate",
+              "67.8 kN",
+              "102.4 kN",
+              "PASS"
+            ],
+            [
+              "Plate bending",
+              "28.5 kNm",
+              "34.2 kNm",
+              "PASS"
+            ],
+            [
+              "Weld strength",
+              "52.1 kN/mm",
+              "61.8 kN/mm",
+              "PASS"
+            ]
           ],
           "caption": "Design check results",
           "label": "tab:design-checks"

@@ -16,11 +16,13 @@ class Section:
         level: 1 = \\section, 2 = \\subsection, 3 = \\subsubsection.
         content: Ordered list of text, tables, and figures.
         subsections: Nested subsections (level+1).
+        force_page_break_before: Emit \\clearpage before this section's heading.
     """
     title: str
     level: int = 1
     content: List[ContentItem] = field(default_factory=list)
     subsections: List['Section'] = field(default_factory=list)
+    force_page_break_before: bool = False
 
     def __post_init__(self):
         if self.level not in (1, 2, 3):

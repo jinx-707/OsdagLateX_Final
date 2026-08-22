@@ -90,7 +90,8 @@ class TestMissingImage:
 
         assert not result.success
         assert result.error_type == CompileErrorType.MISSING_IMAGE
-        assert "image" in result.error_message.lower()
+        assert "not found" in result.error_message.lower()
+        assert "diagram.png" in result.error_message  # names the actual file
 
 
 # ── 4. MISSING_PACKAGE — log references missing .sty ──────────────────

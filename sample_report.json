@@ -1,0 +1,26 @@
+{
+  "title": "Test Report",
+  "author": "Osdag",
+  "config": {
+    "include_toc": true,
+    "include_list_of_figures": true,
+    "include_list_of_tables": true,
+    "style": "default"
+  },
+  "sections": [
+    {
+      "title": "Introduction",
+      "level": 1,
+      "content": [
+        "This is a test report.",
+        {
+          "type": "table",
+          "headers": ["Parameter", "Value"],
+          "rows": [["Bolt diameter", "20 mm"], ["Number of bolts", "8"]],
+          "caption": "Design parameters",
+          "label": "tab:params"
+        }
+      ]
+    }
+  ]
+}
