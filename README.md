@@ -17,10 +17,6 @@ structured compiler wrapper turn it into a PDF.
 ## Quickstart (5 minutes)
 
 ```powershell
-<<<<<<< HEAD
-=======
-cd my_reporting_refactor
->>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967
 python -m venv venv
 venv\Scripts\pip install -r requirements.txt      # jinja2, pytest, pypdf
 venv\Scripts\python -m reporting.cli --input real_beam_column_report.json --output ./out
@@ -79,18 +75,13 @@ Adding it required one fixture file and one registry entry; no product code.
 pytest reporting/tests -v --cov=reporting --cov-report=term-missing
 ```
 
-<<<<<<< HEAD
 128 tests. Pure-Python layers (models/generators/adapters/escaping) need no
-=======
-112 tests. Pure-Python layers (models/generators/adapters/escaping) need no
->>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967
 LaTeX install — CI proves this by running them in a separate job without
 TeXLive (`-m "not requires_latex"`). The full job additionally compiles real
 PDFs and asserts float placement by extracting per-page text
 (`test_pdf_structure_order.py`), so the section-ordering bug described above
 can never silently return.
 
-<<<<<<< HEAD
 ## Visual Polish
 
 Reports now render with pass/fail status cells tinted green/red (opt-in per
@@ -106,8 +97,6 @@ mentions clauses only inside source docstrings/comments; the design-check data
 rows `(label, required, provided, status)` carry no clause field, so none are
 cited rather than guessed.
 
-=======
->>>>>>> 6d9d68f21fde00f29096fb7fa4988f597ca8d967
 ## Known Limitations
 
 - **No legacy-PDF diff comparison.** Running Osdag's original `save_latex()`
