@@ -257,13 +257,13 @@
       "content": [
         {
           "type": "figure",
-          "path": "C:/Users/Saatvika Reddy/Osdag_Vault/Osdag/src/osdag/data/ResourceFiles/images/endplate.png",
+          "path": "reporting/tests/fixtures/images/endplate.png",
           "caption": "End plate connection - side view",
           "label": "fig:endplate-side"
         },
         {
           "type": "figure",
-          "path": "C:/Users/Saatvika Reddy/Osdag_Vault/Osdag/src/osdag/data/ResourceFiles/images/extended.png",
+          "path": "reporting/tests/fixtures/images/extended.png",
           "caption": "Extended end plate detail (Extended One Way)",
           "label": "fig:endplate-extended"
         }
