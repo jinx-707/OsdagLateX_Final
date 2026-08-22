@@ -1,4 +1,3 @@
-![Tests](https://github.com/jinx-707/Osdag_VAULT/actions/workflows/tests.yml/badge.svg)
 
 # Osdag LaTeX Report Generator
 
